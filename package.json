@@ -3,7 +3,7 @@
   "productName": "my-app",
   "version": "1.0.0",
   "description": "My Electron application description",
-  "main": "src/index.js",
+  "main": "src/js/index.js",
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
@@ -42,7 +42,10 @@
     }
   },
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.0"
+    "bootstrap": "^5.2.0",
+    "electron-squirrel-startup": "^1.0.0",
+    "ipc": "^0.0.1",
+    "mysql": "^2.18.1"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.65",
