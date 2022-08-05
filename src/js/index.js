@@ -1,8 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
-const fs = require("fs");
 const { exit } = require('process');
-
+const tbSalas = require('../controller/Salas.js')
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 // eslint-disable-next-line global-require
 if (require('electron-squirrel-startup')) {
@@ -13,7 +12,7 @@ let mainWindow;
 
 const createWindow = () => {
   // Create the browser window.
-    mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
@@ -26,7 +25,7 @@ const createWindow = () => {
 
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, '../pages/index.html'));
-  
+
   // Open the DevTools.
   /* mainWindow.webContents.openDevTools(); */
 };
@@ -38,15 +37,12 @@ const createWindow = () => {
 app.on('ready', createWindow);
 
 ipcMain.on("toMain", (event, args) => {
-  fs.readFile("teste.json", (error, data) => {
 
-    console.log(data);
-    exit;
-    // Do something with file contents
+  console.log(args)
+  /* salas = new tbSalas;
+  salas.create(args); */
+  mainWindow.webContents.send("fromMain", );
 
-    // Send result back to renderer process
-    mainWindow.webContents.send("fromMain", responseObj);
-  });
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common

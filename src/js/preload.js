@@ -4,18 +4,22 @@ const {
     contextBridge,
     ipcRenderer
 } = require("electron");
+/* const {tbSalas} = require('../controller/Salas'); */
 
 // Expose protected methods that allow the renderer process to use
 // the ipcRenderer without exposing the entire object
 contextBridge.exposeInMainWorld(
     "api", {
+        //recebe os dados vindos da página.
         send: (channel, data) => {
-            // whitelist channels
+            
             let validChannels = ["toMain"];
             if (validChannels.includes(channel)) {
                 ipcRenderer.send(channel, data);
             }
         },
+
+        //envia os dados da main para a página
         receive: (channel, func) => {
             let validChannels = ["fromMain"];
             if (validChannels.includes(channel)) {

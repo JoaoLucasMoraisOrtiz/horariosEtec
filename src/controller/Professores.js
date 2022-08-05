@@ -1,5 +1,5 @@
 const dbcon = require('./Connection.js');
-module.exports = class DbProfessor {
+module.exports = class Professores {
     constructor(){
         this.con = new dbcon;
     }
@@ -20,11 +20,15 @@ module.exports = class DbProfessor {
         })
     }
 
-    show() {
-        sql = "SELECT * FROM professores";
-        constructor.con.query(sql, function (err, result) {
-            if (err) throw err;
-            console.log(result);
-        })
+    read() {
+
+    }
+
+    update() {
+
+    }
+
+    delete() {
+
     }
 }
