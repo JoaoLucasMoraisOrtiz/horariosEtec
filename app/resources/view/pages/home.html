@@ -1,0 +1,72 @@
+<!-- onde há chaves duplas ({{}}), será um conteúdo a ser substituído por uma variável -->
+
+<div class="container" style="overflow: auto;">
+    <div class="row">
+        <div class="col-12" style="text-align: center; display: flex; justify-content: space-between;">
+            <a href="{{URL}}/store"><button class="btn btn-success">Loja</button></a>
+            <a href="{{URL}}/destroy"><button class="btn btn-secondary">Sair</button></a>
+            
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm"></div>
+        <div class="col-sm">
+            {{posts}}
+        </div>
+        <div class="col-sm"></div>
+    </div>
+
+    <!-- Modal Post -->
+    <div class="modal fade" id="postComplete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="postTitle"></h5>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <img id='postImg' src="" alt="Imágem do Post" style='width:100%'>
+                        <hr>
+                        <p id='postContent'></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary"
+                        onclick="$('#postComplete').modal('hide')">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openPost(id) {
+
+            $('#postComplete').modal('show')
+
+            data = id
+
+            $.ajax({
+                type: "POST",
+                url: 'http://localhost:8000/admin',
+                data: { "searchPost": data },
+                success: function (response) {
+
+                    data = JSON.parse(response)
+                    console.log(data)
+
+                    document.getElementById('postTitle').innerHTML = data['name']
+
+                    document.querySelector("#postImg").setAttribute('src', data['image']);
+
+                    document.getElementById('postContent').innerHTML = data['description']
+                },
+                error: function (response) {
+                    window.alert('Perdão, tivemos um Erro... Recarregue a página e tente novamente')
+                }
+            });
+
+        }
+    </script>
+
+</div>

@@ -1,7 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const { exit } = require('process');
-const tbSalas = require('../controller/Salas.js')
+
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 // eslint-disable-next-line global-require
 if (require('electron-squirrel-startup')) {
@@ -36,14 +36,13 @@ const createWindow = () => {
 // Some APIs can only be used after this event occurs.
 app.on('ready', createWindow);
 
-ipcMain.on("toMain", (event, args) => {
+/* ipcMain.on("toMain", (event, args) => {
 
-  console.log(args)
   /* salas = new tbSalas;
-  salas.create(args); */
-  mainWindow.webContents.send("fromMain", );
+  salas.create(args);
+  mainWindow.webContents.send("fromMain", 'teste de data');
 
-});
+}); */
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits

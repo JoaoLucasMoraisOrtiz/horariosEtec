@@ -1,10 +1,14 @@
-window.api.receive("fromMain", (data) => {
-    console.log(`Received ${data} from main process`);
-});
-
-
-
-function create(...args) {
-    
-    window.api.send("toMain", args);
+function doit(...args) {
+    data = "i'm alive!!";
+    $.ajax({
+        type: "POST",
+        url: 'http://localhost:8000/salas',
+        data: { "query": data },
+        success: function (response) {
+            window.alert(response);
+        },
+        error: function (response) {
+            window.alert('Perdão, tivemos um Erro... Recarregue a página e tente novamente')
+        }
+    });
 }
