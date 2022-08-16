@@ -3,8 +3,7 @@
 //define um "diretório" para o php, podendo assim existir uma class Classroom diferente em outro namespace
 namespace App\Controller\Tables;
 
-use \App\Utils\View;
-use \App\Model\Entity\Organization;
+use \App\Model\Entity;
 
 class Classroom
 {
@@ -16,7 +15,9 @@ class Classroom
      */
     static function createNewClassroom($data){
         //aqui deverá ser tratado a entrada do dado na DB
-        print_r($data . " criando nova sala de aula ...");
+        print_r($data);
+
+        /* print_r($data . " criando nova sala de aula ..."); */
     }
 
     /**
@@ -26,7 +27,10 @@ class Classroom
      */
     static function getClassrooms(){
         //aqui deverá ser criado uma forma de trazer todas as *salas* de aulase suas *materias*
-        print_r('trazendo todas as salas da Db...');
+        /* print_r('here');
+        exit; */
+        print_r(FALSE);
+        exit;
     }
 
     /**

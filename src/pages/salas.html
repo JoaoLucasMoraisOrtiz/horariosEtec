@@ -1,13 +1,80 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=, initial-scale=1.0">
+
+    <!-- css da página + bootstrap -->
+    <link rel="stylesheet" href="../css/salas.css">
+
+    <!-- bibliotecas jquery -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
+
+    <!-- bibliotecas do js bootstrap -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+    <!-- script da página -->
+    <script src="../js/salas.js"></script>
+
     <title>Salas</title>
 </head>
+
 <body>
-    <h1>Você está em Salas</h1>
-    <a href="./index.html" class="btn btn-warning">voltar</a>
+    <div class="container">
+        <h1 class="text-center">Você está em Salas</h1>
+        <a href="./index.html" class="btn btn-warning">voltar</a>
+
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newClassModal">
+            Launch demo modal
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="newClassModal" tabindex="-1" role="dialog" aria-labelledby="newClassModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="newClassModalLabel">Modal title</h5>
+                        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">x</span>
+                        </button> -->
+                    </div>
+                    <div class="modal-body" id="newClassModalBody">
+                        <p>Nome da classe <input type="text" name="nCName" id="nCName" class="form-controll"></p>
+                        <p>Apelido da classe <input type="text" name="nCName" id="nCName" class="form-controll"></p>
+                        <hr>
+                        <div class="scrollArea">
+                            <div id="subjects">
+                                <div id="codeClass">
+                                    <p>código da matéria <input type="number" name="sub1code" id="sub1code"
+                                            class="form-controll"> <button class="btn btn-danger" onclick="verifyId('sub1code')">verificar</button></p>
+                                </div>
+                                <button class="btn btn-secondary" type="button" id="dropdownMenu2"
+                                    data-toggle="collapse" data-target="#sub1" aria-expanded="false" onclick="count(1)">
+                                    adicionar matérias
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
 </body>
+
 </html>

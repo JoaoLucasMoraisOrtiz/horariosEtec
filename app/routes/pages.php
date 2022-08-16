@@ -99,6 +99,7 @@ $obRouter->post('/salas', [
 
 $obRouter->post('/professores', [
     function () {
-        /* algo ... */
+        print_r('here');
+        exit;
     }
 ]);

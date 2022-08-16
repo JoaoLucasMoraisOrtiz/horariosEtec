@@ -2,7 +2,7 @@ function doit(...args) {
     data = "i'm alive!!";
     $.ajax({
         type: "POST",
-        url: 'http://localhost:8000/salas',
+        url: 'http://localhost:8000/professores',
         data: { "query": data },
         success: function (response) {
             window.alert(response);

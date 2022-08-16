@@ -1,0 +1,11 @@
+@import "../bootstrap-5.2.0/css/bootstrap.css";
+span {
+    border-radius: 16px;
+    width: fit-content;
+    background-color: rgba(01, 00, 00, 00);
+}
+
+.scroolArea {
+    overflow-y:scroll;
+    width: 20vh;
+}
