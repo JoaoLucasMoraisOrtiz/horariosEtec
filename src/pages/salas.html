@@ -49,8 +49,10 @@
                         </button> -->
                     </div>
                     <div class="modal-body" id="newClassModalBody">
-                        <p>Nome da classe <input type="text" name="nCName" id="nCName" class="form-controll"></p>
-                        <p>Apelido da classe <input type="text" name="nCName" id="nCName" class="form-controll"></p>
+                        <p>Nome da classe <input type="text" name="nCName" id="nCName" class="form-control"></p>
+                        <p>Apelido da classe <input type="text" name="nCNick" id="nCNick" class="form-control"></p>
+                        <p>Ano Letivo da Turma <input type="number" name="year" id="year" class="form-control" placeholder="ano letivo: 1, 2 ou 3" min='1' max='3' oninput='validity.valid ? this.save = value : value = this.save;'></p>
+                        <p>Período das aulas <input type="text" name="period" id="period" class="form-control" placeholder="integral, manhã, tarde ..."></p>
                         <hr>
                         <div class="scrollArea">
                             <div id="subjects">
@@ -58,23 +60,33 @@
                                     <p>código da matéria <input type="number" name="sub1code" id="sub1code"
                                             class="form-controll"> <button class="btn btn-danger" onclick="verifyId('sub1code')">verificar</button></p>
                                 </div>
-                                <button class="btn btn-secondary" type="button" id="dropdownMenu2"
-                                    data-toggle="collapse" data-target="#sub1" aria-expanded="false" onclick="count(1)">
-                                    adicionar matérias
-                                </button>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                        <button type="button" class="btn btn-primary" onclick="sendRoom()">Cadastrar Sala</button>
                     </div>
                 </div>
             </div>
         </div>
 
-    </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-6">
+                        ONE
+                    </div>
+                    <div class="col-6">
+                        TWO
+                    </div>
+                </div>
+                
+            </div>
+            
+        </div>
 
+    </div>
 </body>
 
 </html>

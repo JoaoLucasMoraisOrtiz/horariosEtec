@@ -79,8 +79,8 @@ $obRouter->post('/salas', [
 
         $data = $_POST;
 
-        if (isset($data['newSala'])) {
-            Tables\Classroom::createNewClassroom($data['newSala']);
+        if (isset($data['newClass'])) {
+            Tables\Classroom::createNewClassroom($data['newClass']);
             exit;
         }
 
