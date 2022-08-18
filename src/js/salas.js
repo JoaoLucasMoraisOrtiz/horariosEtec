@@ -27,11 +27,14 @@ function verifyId(inputPlace) {
 
             //caso a resposta seja negativa
             if (!confirm) {
+
+                //div que ira conter os campos para acrescentar as informaçoes da materia
                 father = document.getElementById('subjects');
                 count(1);
                 var div = document.createElement('div');
                 div.setAttribute('id', 'sub' + countSubjects);
 
+                // input do nome da materia
                 var name = document.createElement('input');
                 name.setAttribute('id', 'sub' + countSubjects + 'Name');
                 name.setAttribute('type', 'text');
@@ -39,6 +42,7 @@ function verifyId(inputPlace) {
                 name.setAttribute('value', '');
                 name.setAttribute('placeholder', 'nome da matéria: PROGRAMAÇÃO WEB I')
 
+                //input do apelido da materia
                 var nick = document.createElement('input');
                 nick.setAttribute('id', 'sub' + countSubjects + 'Nick');
                 nick.setAttribute('type', 'text');
@@ -46,30 +50,7 @@ function verifyId(inputPlace) {
                 nick.setAttribute('value', '');
                 nick.setAttribute('placeholder', 'apelido da matéria: PWI')
 
-                /* var classroom = document.createElement('input');
-                classroom.setAttribute('id', 'sub' + countSubjects + 'Clroom');
-                classroom.setAttribute('type', 'text');
-                classroom.setAttribute('class', 'form-control');
-                classroom.setAttribute('value', '');
-                classroom.setAttribute('placeholder', 'sala que será atribuída: INFORMATICA PARA INTERNET')
-
-                var clroomNick = document.createElement('input');
-                clroomNick.setAttribute('id', 'sub' + countSubjects + 'ClroomNick');
-                clroomNick.setAttribute('type', 'text');
-                clroomNick.setAttribute('class', 'form-control');
-                clroomNick.setAttribute('value', '');
-                clroomNick.setAttribute('placeholder', 'apelido da sala: EMIA') 
-
-                var year = document.createElement('input');
-                year.setAttribute('id', 'sub' + countSubjects + 'Year');
-                year.setAttribute('type', 'number');
-                year.setAttribute('class', 'form-control');
-                year.setAttribute('value', '');
-                year.setAttribute('min', '1');
-                year.setAttribute('max', '3');
-                year.setAttribute('oninput', 'validity.valid ? this.save = value : value = this.save;')
-                year.setAttribute('placeholder', 'ano letivo: 1 ou 2 ou 3');*/
-
+                //input do numero de aulas desta materia
                 var numberClass = document.createElement('input');
                 numberClass.setAttribute('id', 'sub' + countSubjects + 'NumberClass');
                 numberClass.setAttribute('type', 'number');
@@ -79,40 +60,40 @@ function verifyId(inputPlace) {
                 numberClass.setAttribute('placeholder', 'número de aulas: 4');
                 numberClass.setAttribute('oninput', 'validity.valid ? this.save = value : value = this.save;')
 
-                /* var period = document.createElement('input');
-                period.setAttribute('id', 'sub' + countSubjects + 'ClroomPeriod');
-                period.setAttribute('type', 'text');
-                period.setAttribute('class', 'form-control');
-                period.setAttribute('value', '');
-                period.setAttribute('placeholder', 'período: integral ou manhã ...'); */
-
+                //linha hr
                 var p = document.createElement('hr');
 
+                //botão que adiciona a mateira dentro do dicionario de materias
                 var btn = document.createElement('button');
                 btn.setAttribute('onclick', 'getClass()');
                 btn.setAttribute('class', 'btn btn-success');
                 btn.textContent = 'salvar';
 
+                //adicionando todo este conteúdo ao DOM
                 div.appendChild(name);
                 div.appendChild(nick);
-
                 div.appendChild(numberClass);
                 div.appendChild(p);
                 div.appendChild(btn);
                 father.appendChild(div);
 
             } else {
+                //caso a matéria ja tiver sido cadastrada
                 window.alert('há esta matéria ja cadastrada!');
             }
 
         },
         error: function (response) {
+            //error do server
             window.alert('Perdão, tivemos um Erro... Recarregue a página e tente novamente')
         }
     });
 
 }
 
+/**
+ * Método responsável por adcionar os valores digitados pelo usuário ao dicionário que será enviado a DB
+ */
 function getClass() {
     var name = document.getElementById('sub' + countSubjects + 'Name');
     var nick = document.getElementById('sub' + countSubjects + 'Nick');
@@ -121,8 +102,10 @@ function getClass() {
     var year = document.getElementById('year');
     var numberClass = document.getElementById('sub' + countSubjects + 'NumberClass');
     var period = document.getElementById('period');
+    var code = document.getElementById('sub1code');
 
     obj[countSubjects] = {
+        'code': code.value,
         'name': name.value,
         'nick': nick.value,
         'classroom': classroom.value,
@@ -132,7 +115,7 @@ function getClass() {
         'period': period.value
     }
 
-    const e = document.getElementById('sub'+countSubjects);
+    const e = document.getElementById('sub' + countSubjects);
 
     // remove the last list item
     e.remove();
@@ -142,7 +125,7 @@ function getClass() {
     var div1 = document.createElement('div');
     div1.setAttribute('class', 'row');
     div1.setAttribute('id', countSubjects)
-    
+
     var div2 = document.createElement('div');
     div2.setAttribute('class', 'col-6')
 
@@ -160,7 +143,7 @@ function getClass() {
     div4brother.setAttribute('class', 'col-4')
 
     var btn = document.createElement('button');
-    btn.setAttribute('onclick', 'remove('+countSubjects+')')
+    btn.setAttribute('onclick', 'remove(' + countSubjects + ')')
     btn.setAttribute('class', 'btn btn-danger');
     btn.textContent = 'excluir'
 

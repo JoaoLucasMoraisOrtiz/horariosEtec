@@ -51,14 +51,18 @@
                     <div class="modal-body" id="newClassModalBody">
                         <p>Nome da classe <input type="text" name="nCName" id="nCName" class="form-control"></p>
                         <p>Apelido da classe <input type="text" name="nCNick" id="nCNick" class="form-control"></p>
-                        <p>Ano Letivo da Turma <input type="number" name="year" id="year" class="form-control" placeholder="ano letivo: 1, 2 ou 3" min='1' max='3' oninput='validity.valid ? this.save = value : value = this.save;'></p>
-                        <p>Período das aulas <input type="text" name="period" id="period" class="form-control" placeholder="integral, manhã, tarde ..."></p>
+                        <p>Ano Letivo da Turma <input type="number" name="year" id="year" class="form-control"
+                                placeholder="ano letivo: 1, 2 ou 3" min='1' max='3'
+                                oninput='validity.valid ? this.save = value : value = this.save;'></p>
+                        <p>Período das aulas <input type="text" name="period" id="period" class="form-control"
+                                placeholder="integral, manhã, tarde ..."></p>
                         <hr>
                         <div class="scrollArea">
                             <div id="subjects">
                                 <div id="codeClass">
                                     <p>código da matéria <input type="number" name="sub1code" id="sub1code"
-                                            class="form-controll"> <button class="btn btn-danger" onclick="verifyId('sub1code')">verificar</button></p>
+                                            class="form-controll" placeholder="ex: 1"> <button class="btn btn-danger"
+                                            onclick="verifyId('sub1code')">verificar</button></p>
                                 </div>
                             </div>
                         </div>
@@ -81,9 +85,9 @@
                         TWO
                     </div>
                 </div>
-                
+
             </div>
-            
+
         </div>
 
     </div>
