@@ -3,7 +3,7 @@
 //define um "diretório" para o php, podendo assim existir uma class Classroom diferente em outro namespace
 namespace App\Controller\Tables;
 
-use \App\Model\Entity;
+use \App\Model\Entity\Organization;
 
 class Classroom
 {
@@ -15,9 +15,12 @@ class Classroom
      */
     static function createNewClassroom($data){
         //aqui deverá ser tratado a entrada do dado na DB
-        print_r($data);
 
-        /* print_r($data . " criando nova sala de aula ..."); */
+        $db = new Organization;
+
+        $db->db_methods('POST', 'classroom', $data);
+
+        
     }
 
     /**

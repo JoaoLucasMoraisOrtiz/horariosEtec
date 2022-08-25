@@ -98,6 +98,8 @@ class response{
      * 
      */
     private function sendHeaders(){
+
+        $this->httpCode = 200;
         //define o status (200, 400, 404, 500, etc...)
         http_response_code($this->httpCode);
 

@@ -58,10 +58,24 @@ function verifyId(inputPlace) {
                 numberClass.setAttribute('value', '');
                 numberClass.setAttribute('min', '1');
                 numberClass.setAttribute('placeholder', 'número de aulas: 4');
-                numberClass.setAttribute('oninput', 'validity.valid ? this.save = value : value = this.save;')
+                numberClass.setAttribute('oninput', 'validity.valid ? this.save = value : value = this.save;');
+
+                //checkbox
+                var radio = document.createElement('input');
+                radio.setAttribute('id', 'sub' + countSubjects + 'Commun');
+                radio.setAttribute('type', 'checkbox');
+                radio.setAttribute('class', 'form-check-input');
+                radio.setAttribute('value', 'true');
+                
+                //checkbox texto
+                var radioText = document.createElement('label');
+                radioText.setAttribute('for', 'sub'+ countSubjects + 'Commun');
+                radioText.innerText = ' Núcleo comum';
 
                 //linha hr
                 var p = document.createElement('hr');
+
+                var br = document.createElement('br');
 
                 //botão que adiciona a mateira dentro do dicionario de materias
                 var btn = document.createElement('button');
@@ -74,6 +88,9 @@ function verifyId(inputPlace) {
                 div.appendChild(nick);
                 div.appendChild(numberClass);
                 div.appendChild(p);
+                div.appendChild(radio);
+                div.appendChild(radioText);
+                div.appendChild(br);
                 div.appendChild(btn);
                 father.appendChild(div);
 
@@ -102,6 +119,7 @@ function getClass() {
     var year = document.getElementById('year');
     var numberClass = document.getElementById('sub' + countSubjects + 'NumberClass');
     var period = document.getElementById('period');
+    var commun = document.getElementById('sub' + countSubjects + 'Commun');
     var code = document.getElementById('sub1code');
 
     obj[countSubjects] = {
@@ -112,7 +130,8 @@ function getClass() {
         'clroomNick': clroomNick.value,
         'year': year.value,
         'numberClass': numberClass.value,
-        'period': period.value
+        'period': period.value,
+        'commun': commun.checked
     }
 
     const e = document.getElementById('sub' + countSubjects);

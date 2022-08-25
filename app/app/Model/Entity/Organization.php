@@ -4,15 +4,11 @@
 
 namespace App\Model\Entity;
 
-use ActionsEvents;
-use ActionsPosts;
-use ActionsUsers;
-use ActionsClients;
+use ActionsClassroom;
+use ActionsTeacher;
 
-require_once __DIR__ . '/../API/controller/ActionsPost.php';
-require_once __DIR__ . '/../API/controller/ActionsUsers.php';
-require_once __DIR__ . '/../API/controller/ActionsEvents.php';
-require_once __DIR__ . '/../API/controller/ActionsClients.php';
+require_once __DIR__ . '/../API/controller/ActionsClassroom.php';
+require_once __DIR__ . '/../API/controller/ActionsTeacher.php';
 
 class Organization
 {
@@ -35,22 +31,14 @@ class Organization
     private function init($table)
     {
 
-        if (strtolower($table) == 'posts') {
+        if (strtolower($table) == 'classroom') {
 
-            $this->api = new ActionsPosts;
+            $this->api = new ActionsClassroom;
         }
 
-        if (strtolower($table) == 'users') {
+        if (strtolower($table) == 'teacher') {
 
-            $this->api = new ActionsUsers;
-        }
-
-        if (strtolower($table) == 'events') {
-            $this->api = new ActionsEvents;
-        }
-
-        if (strtolower($table) == 'clients') {
-            $this->api = new ActionsClients;
+            $this->api = new ActionsTeacher;
         }
     }
 
@@ -67,7 +55,14 @@ class Organization
         if (strtoupper($method) == "GET") {
 
             $this->init($table);
-            
+
+            return $this->api->get($params);
+        }
+
+        if (strtoupper($method) == "GET_FILTER") {
+
+            $this->init($table);
+
             return $this->api->get($params);
         }
 
@@ -75,7 +70,18 @@ class Organization
 
             $this->init($table);
 
-            $this->api->post($params);
+            if(gettype($params) == 'array'){
+
+                //passa por cada matéria programada
+                foreach ($params as $item) {
+
+                    //adciona a matéria no banco de dados
+                    $this->api->post($item);
+                }
+                
+            }
+
+            
         }
 
         if (strtoupper($method) == "PUT") {

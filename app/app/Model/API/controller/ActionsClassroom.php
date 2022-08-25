@@ -5,7 +5,7 @@ require_once __DIR__ . "/../helpers/dbConection.php";
 use FFI\Exception;
 
 
-class ActionsEvents
+class ActionsClassroom
 {
 
     /**
@@ -109,7 +109,7 @@ class ActionsEvents
      */
     private function getTableName()
     {
-        $this->tableName = getenv('DB_EVENT_TABLE');
+        $this->tableName = getenv('DB_POSTS_TABLE');
     }
     /* 
         funções da classe em si
@@ -117,11 +117,11 @@ class ActionsEvents
 
     /**
      * Método responsável por trazer o id dos posts de uma table no banco de dados
-     * @param int $id
+     * @param string $querry
      * @param string $tableName
      * @return array
      */
-    public function get($id = 0)
+    public function get($querry = '')
     {
         //conexão com o BD;
         try {
@@ -141,9 +141,9 @@ class ActionsEvents
             echo `window.allert('Erro ao conectar com o banco de dados! <br> {$e->getMessage()}')`;
         }
 
-        if ($id === 0) {
+        if ($querry === '') {
 
-            $comand = "SELECT * FROM events";
+            $comand = "SELECT * FROM posts";
             //prepara uma string para ser executada posteriormente com o prepare;
             //:_mark - é uma forma de se proteger, para ninguem colocar um drop database e acabar com o banco
             $statement = $con->prepare($comand);
@@ -159,12 +159,12 @@ class ActionsEvents
                 //em caso de erro 
                 echo `window.allert('Erro ao conectar com o banco de dados! <br> {$e->getMessage()}')`;
             }
-        } else if ($id != 0) {
+        } else if ($querry != '') {
 
             //prepara uma string para ser executada posteriormente com o prepare;
             //:_mark - é uma forma de se proteger, para ninguem colocar um drop database e acabar com o banco
-            $statement = $con->prepare("SELECT * FROM events WHERE id = :id");
-            $statement->bindParam(":id", $id, PDO::PARAM_INT);
+            $statement = $con->prepare("SELECT * FROM materiascurso WHERE :querry");
+            $statement->bindParam(":querry", $querry, PDO::PARAM_INT);
             try {
                 //tenta executar a string que estava sendo preparada, ou seja, envia para o DB os dados.
                 $statement->execute();
@@ -207,11 +207,26 @@ class ActionsEvents
 
             //prepara uma string para ser executada posteriormente com o prepare;
             //:_mark - é uma forma de se proteger, para ninguem colocar um drop database e acabar com o banco
-            $statement = $con->prepare("INSERT INTO events VALUES(NULL, :name, :description, :value)");
+            $statement = $con->prepare("INSERT INTO materiascurso VALUES(:code, :class, :classNick, :classroom, :classroomNick, :year, :numberClass, :period, NULL, :commun)");
+
+            //troca TRUE ou FALSE por 0 // 1 no $param[commun];
+            if($param['commun'] == 'true'){
+                $ncommun = 1;
+            }else{
+                $ncommun = 0;
+            }
+            
             //substitui o :_mark por um valor, e expecifica o tipo do valor (explicitado por segurança);
-            $statement->bindValue(":name", $param['name'], PDO::PARAM_STR);
-            $statement->bindValue(":description", $param['description'], PDO::PARAM_STR);
-            $statement->bindValue(":value", $param['value'], PDO::PARAM_STR);
+            $statement->bindValue(":code", $param['code'], PDO::PARAM_STR);
+            $statement->bindValue(":class", $param['name'], PDO::PARAM_STR);
+            $statement->bindValue(":classNick", $param['nick'], PDO::PARAM_STR);
+            $statement->bindValue(":classroom", $param['classroom'], PDO::PARAM_STR);
+            $statement->bindValue(":classroomNick", $param['clroomNick'], PDO::PARAM_STR);
+            $statement->bindValue(":year", $param['year'], PDO::PARAM_STR);
+            $statement->bindValue(":numberClass", $param['numberClass'], PDO::PARAM_STR);
+            $statement->bindValue(":period", $param['period'], PDO::PARAM_STR);
+            $statement->bindValue(":commun", $ncommun, PDO::PARAM_STR);
+
         } catch (Exception $e) {
             echo "ERROR " . $e;
             exit();
@@ -261,13 +276,19 @@ class ActionsEvents
 
             //prepara uma string para ser executada posteriormente com o prepare;
             //:_mark - é uma forma de se proteger, para ninguem colocar um drop database e acabar com o banco
-            $statement = $con->prepare("UPDATE events SET name=:name, value=:value, description=:description WHERE id=:id");
+            $statement = $con->prepare("UPDATE posts SET name=:name, type=:type, image=:image, description=:description WHERE id=:id");
+            $statement = $con->prepare("UPDATE materiascurso SET codigo=:code, materia=:class, apelidoMateria=:classNick, classe=:classroom, apelidoClasse=:classroomNick, ano=:year, qtdAulas=:numberClass, periodo=:period, id=NULL, nucleoCumum=:commun)");
 
             //substitui o :_mark por um valor, e expecifica o tipo do valor (explicitado por segurança);
-            $statement->bindValue(":name", $param['name'], PDO::PARAM_STR);
-            $statement->bindValue(":value", $param['value'], PDO::PARAM_STR);
-            $statement->bindValue(":description", $param['description'], PDO::PARAM_STR);
-            $statement->bindValue(":id", $param['id'], PDO::PARAM_INT);
+            $statement->bindValue(":code", $param['code'], PDO::PARAM_STR);
+            $statement->bindValue(":class", $param['name'], PDO::PARAM_STR);
+            $statement->bindValue(":classNick", $param['nick'], PDO::PARAM_STR);
+            $statement->bindValue(":classroom", $param['classroom'], PDO::PARAM_STR);
+            $statement->bindValue(":classroomNick", $param['clroomNick'], PDO::PARAM_STR);
+            $statement->bindValue(":year", $param['year'], PDO::PARAM_STR);
+            $statement->bindValue(":numberClass", $param['numberClass'], PDO::PARAM_STR);
+            $statement->bindValue(":period", $param['period'], PDO::PARAM_STR);
+            $statement->bindValue(":commun", $param['commun'], PDO::PARAM_STR);
         } catch (Exception $e) {
             echo "ERROR " . $e;
             exit();
@@ -312,7 +333,7 @@ class ActionsEvents
 
         //prepara uma string para ser executada posteriormente com o prepare;
         //:_mark - é uma forma de se proteger, para ninguem colocar um drop database e acabar com o banco
-        $statement = $con->prepare("DELETE FROM events WHERE id = :id");
+        $statement = $con->prepare("DELETE FROM posts WHERE codigo = :id");
 
         //substitui o :_mark por um valor, e expecifica o tipo do valor (explicitado por segurança);
         $statement->bindValue(":id", $id, PDO::PARAM_INT);
