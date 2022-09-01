@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 05-Ago-2022 às 15:23
+-- Tempo de geração: 01-Set-2022 às 15:59
 -- Versão do servidor: 10.4.22-MariaDB
 -- versão do PHP: 8.1.1
 
@@ -18,8 +18,35 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Banco de dados: `salas`
+-- Banco de dados: `sysdb`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `class`
+--
+
+CREATE TABLE `class` (
+  `id` int(11) NOT NULL,
+  `classroom` varchar(250) NOT NULL,
+  `classroomNick` varchar(20) NOT NULL,
+  `year` int(1) NOT NULL,
+  `period` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `class`
+--
+
+INSERT INTO `class` (`id`, `classroom`, `classroomNick`, `year`, `period`) VALUES
+(1, 'INFORMATICA PARA INTERNET', 'EMIA', 3, 'INTEGRAL'),
+(2, 'DESENVOLVIMENTO DE SISTEMAS', 'EMDS', 2, 'INTEGRAL'),
+(14, 'DESENVOLVIMENTO DE SISTEMAS', 'EMDS', 2, 'INTEGRAL'),
+(15, 'DESENVOLVIMENTO DE SISTEMAS', 'EMDS', 2, 'INTEGRAL'),
+(16, 'DESENVOLVIMENTO DE SISTEMAS', 'EMDS', 2, 'INTEGRAL'),
+(17, 'DESENVOLVIMENTO DE SISTEMAS', 'EMDS', 2, 'INTEGRAL'),
+(18, 'DESENVOLVIMENTO DE SISTEMAS', 'EMDS', 2, 'INTEGRAL');
 
 -- --------------------------------------------------------
 
@@ -28,61 +55,64 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `materiascurso` (
+  `id` int(11) NOT NULL,
   `codigo` int(11) NOT NULL,
   `materia` varchar(50) NOT NULL,
   `apelidoMateria` varchar(10) NOT NULL,
-  `classe` varchar(50) NOT NULL,
-  `apelidoClasse` varchar(10) NOT NULL,
-  `ano` int(1) NOT NULL,
+  `classe` int(200) NOT NULL,
   `qtdAulas` int(2) NOT NULL,
-  `periodo` varchar(50) NOT NULL
+  `commun` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- --------------------------------------------------------
-
 --
--- Estrutura da tabela `nucleocomum`
+-- Extraindo dados da tabela `materiascurso`
 --
 
-CREATE TABLE `nucleocomum` (
-  `codigo` int(11) NOT NULL,
-  `materia` varchar(50) NOT NULL,
-  `apelidoMateria` varchar(10) NOT NULL,
-  `classe` varchar(50) NOT NULL,
-  `apelidoClasse` varchar(10) NOT NULL,
-  `ano` int(1) NOT NULL,
-  `qtdAulas` int(2) NOT NULL,
-  `periodo` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `salas`
---
-
-CREATE TABLE `salas` (
-  `ano` int(1) NOT NULL,
-  `curso` varchar(50) NOT NULL,
-  `cursoApelido` int(10) NOT NULL,
-  `periodo` int(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+INSERT INTO `materiascurso` (`id`, `codigo`, `materia`, `apelidoMateria`, `classe`, `qtdAulas`, `commun`) VALUES
+(1, 3, 'PROGRAMAÇÃO WEB II', 'PWII', 1, 4, 1);
 
 --
 -- Índices para tabelas despejadas
 --
 
 --
+-- Índices para tabela `class`
+--
+ALTER TABLE `class`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Índices para tabela `materiascurso`
 --
 ALTER TABLE `materiascurso`
-  ADD PRIMARY KEY (`codigo`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_class` (`classe`);
 
 --
--- Índices para tabela `nucleocomum`
+-- AUTO_INCREMENT de tabelas despejadas
 --
-ALTER TABLE `nucleocomum`
-  ADD PRIMARY KEY (`codigo`);
+
+--
+-- AUTO_INCREMENT de tabela `class`
+--
+ALTER TABLE `class`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT de tabela `materiascurso`
+--
+ALTER TABLE `materiascurso`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- Restrições para despejos de tabelas
+--
+
+--
+-- Limitadores para a tabela `materiascurso`
+--
+ALTER TABLE `materiascurso`
+  ADD CONSTRAINT `fk_class` FOREIGN KEY (`classe`) REFERENCES `class` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
