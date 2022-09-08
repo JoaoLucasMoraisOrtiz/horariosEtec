@@ -212,3 +212,48 @@ function remove(id) {
 function count(value) {
     return countSubjects
 }
+
+function dump(obj) {
+    var out = '';
+
+    //percorre o obj e adciona-o em *out*
+    for (var i in obj) {
+        out += i + ": " + obj[i] + "\n";
+    }
+
+    
+    //escreve na tela os dumps do obj
+    results = document.getElementById('querryResults');
+    pre = document.createElement('pre');
+    hr = document.createElement('hr');
+    pre.innerHTML = out;
+    results.appendChild(pre);
+    results.appendChild(hr);
+}
+
+function openQuerry(){
+    simple = document.getElementById('generalQuerry').value
+    if (simple != 0){
+
+        obj = '';
+        $.ajax({
+            type: "POST",
+            url: 'http://localhost:8000/salas',
+            data: { "get": obj },
+            success: function (response) {
+
+                data = JSON.parse(response);
+                results = document.getElementById('querryResults');
+                $('#querryField').modal('hide');
+                for (let index = 0; index < data.length; index++) {
+                    dump(data[index])
+                    
+                }                
+
+            },
+            error: function (response) {
+                window.alert('Perdão, tivemos um Erro... Recarregue a página e tente novamente')
+            }
+        });
+    }
+}

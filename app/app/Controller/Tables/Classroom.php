@@ -28,10 +28,10 @@ class Classroom
      * com todas as suas respectivas matérias.
      * @return string
      */
-    static function getClassrooms(){
-        //aqui deverá ser criado uma forma de trazer todas as *salas* de aulase suas *materias*
-        /* print_r('here');
-        exit; */
+    static function getClassrooms($data=''){
+        $db = new Organization;
+
+        $db->db_methods('GET', 'classroom', $data);
         print_r(FALSE);
         exit;
     }

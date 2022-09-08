@@ -30,12 +30,14 @@
 <body>
     <div class="container">
         <h1 class="text-center">Você está em Salas</h1>
-        <a href="./index.html" class="btn btn-warning">voltar</a>
+        <a href="./index.html" class="btn btn-danger">voltar</a>
 
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newClassModal">
-            Launch demo modal
+            Cadastrar Sala
         </button>
+
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#querryField"> procurar </button>
 
         <!-- Modal -->
         <div class="modal fade" id="newClassModal" tabindex="-1" role="dialog" aria-labelledby="newClassModalLabel"
@@ -75,14 +77,62 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-6">
-                <div class="row">
-                    <div class="col-6">
-                        ONE
-                    </div>
-                    <div class="col-6">
-                        TWO
+        <!-- Modal Querry -->
+        <div class="modal fade" aria-labelledby="querryFieldModalLabel" role="dialog" aria-hidden="true"
+            id="querryField">
+            <div class="modal-dialog" role='document'>
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col3">
+                            </div>
+                            <div class="col3">
+                                <!-- botão e texto da busca geral -->
+                                <div class="row">
+                                    <h2 class='text-center'>Busca Geral</h2>
+                                    <button class="btn btn-danger" data-toggle="collapse"
+                                        data-target="#generalQuerry">+</button>
+                                    <br>
+                                </div>
+
+                                <!-- Select da busca Geral -->
+                                <select name="generalQuerry" class="form-select collapse" id="generalQuerry">
+                                    <option value='0' selected></option>
+                                    <option value="classroom">Salas</option>
+                                    <option value="commun">Matérias de Nucleo Comum</option>
+                                    <option value="course">Matérias de Cursos Tecnicos</option>
+                                </select>
+                                <hr>
+
+                                <!-- Botão e texto da busca específica -->
+                                <div class="row">
+                                    <h2 class='text-center'>Busca Individual</h2>
+                                    <button class="btn btn-secondary" data-toggle="collapse"
+                                        data-target='#restrictQuerry'>+</button>
+                                </div>
+
+                                <!-- Campos da busca específica -->
+                                <div class='collapse' id='restrictQuerry'>
+                                    <br>
+                                    <input type="text"
+                                        name="deepQuerry" id="deepQuerry" class="form-control"
+                                        placeholder="busque alguma sala ou matéria" required> em
+                                    <select name="restrictQuerrySelect" class="form-select" required id='restrictQuerrySelect'>
+                                        <option value="" selected>selecione o campo onde este dado sera pesquisado
+                                        </option>
+                                        <option value="classroom">Salas</option>
+                                        <option value="commun">Matérias de Nucleo Comum</option>
+                                        <option value="course">Matérias de Cursos Tecnicos</option>
+                                    </select>
+                                </div>
+                                <hr>
+                                <div class="d-flex flex-row-reverse">
+                                    <button class="btn btn-success" onclick="openQuerry()"> Pesquisar </button>
+                                </div>
+                            </div>
+                            <div class="col3">
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -90,6 +140,15 @@
 
         </div>
 
+        <div class="row">
+            <div class="col3">
+            </div>
+            <div class="col3" id='querryResults'>
+
+            </div>
+            <div class="col3">
+            </div>
+        </div>
     </div>
 </body>
 

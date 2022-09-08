@@ -85,7 +85,7 @@ $obRouter->post('/salas', [
         }
 
         if (isset($data['get'])) {
-            Tables\Classroom::getClassrooms();
+            Tables\Classroom::getClassrooms($data['get']);
             exit;
         }
 

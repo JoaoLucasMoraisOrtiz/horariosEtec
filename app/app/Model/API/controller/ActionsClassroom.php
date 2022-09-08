@@ -123,6 +123,7 @@ class ActionsClassroom
      */
     public function get($querry = '')
     {
+        
         //conexão com o BD;
         try {
             $con = '';
@@ -142,8 +143,8 @@ class ActionsClassroom
         }
 
         if ($querry === '') {
-
-            $comand = "SELECT * FROM posts";
+            
+            $comand = "SELECT * FROM `materiascurso`";
             //prepara uma string para ser executada posteriormente com o prepare;
             //:_mark - é uma forma de se proteger, para ninguem colocar um drop database e acabar com o banco
             $statement = $con->prepare($comand);
@@ -154,7 +155,9 @@ class ActionsClassroom
                 //tenta executar a string que estava sendo preparada, ou seja, envia para o DB os dados.
                 $statement->execute();
 
-                return $statement->fetchAll(PDO::FETCH_ASSOC);
+                
+
+                print_r(json_encode($statement->fetchAll(PDO::FETCH_ASSOC)));
             } catch (Exception $e) {
                 //em caso de erro 
                 echo `window.allert('Erro ao conectar com o banco de dados! <br> {$e->getMessage()}')`;
@@ -204,63 +207,29 @@ class ActionsClassroom
         }
 
         try {
-
-            //inserindo primeiramente na Fk
-            $statementFk = $con->prepare("INSERT INTO class VALUES(NULL, :classroom, :classroomNick, :year, :period)");
-            
-            $statementFk->bindValue(":classroom", $param['classroom'], PDO::PARAM_STR);
-            $statementFk->bindValue(":classroomNick", $param['clroomNick'], PDO::PARAM_STR);
-            $statementFk->bindValue(":year", $param['year'], PDO::PARAM_STR);
-            $statementFk->bindValue(":period", $param['period'], PDO::PARAM_STR);
-            try {
-                //tenta executar a string que estava sendo preparada, ou seja, envia para o DB os dados.
-                if ($statementFk->execute()) {
-                    //pega o ID do usuário que foi enviado para o DB;
-                    $this->id = $con->lastInsertId();
-                    /* //exibe o usuário inserido na DB;
-                    return $this->get($this->id);*/
-                }
-            } catch (Exception $e) {
-                //em caso de erro 
-                echo `window.allert('Erro ao conectar com o banco de dados! <br> {$e->getMessage()}')`;
-            }
-
-            $statement = $con->prepare("SELECT id FROM class WHERE :querry");
-            $querry = "`classroomNick`='".$param['clroomNick']."' and `year`=".$param['year'].";";
-            $statement->bindValue(":querry", $querry);
-            
-            try {
-                
-
-                //tenta executar a string que estava sendo preparada, ou seja, envia para o DB os dados.
-                $statement->execute();
-
-                $id = $statement->fetchAll(PDO::FETCH_ASSOC);
-                
-                
-                
-            } catch (Exception $e) {
-                //em caso de erro 
-                echo `window.allert('Erro ao conectar com o banco de dados! <br> {$e->getMessage()}')`;
-            }
             //prepara uma string para ser executada posteriormente com o prepare;
             //:_mark - é uma forma de se proteger, para ninguem colocar um drop database e acabar com o banco
-            $statement = $con->prepare("INSERT INTO materiascurso (codigo, materia, apelidoMateria, classe, qtdAulas, id, commun) VALUES(:code, :class, :classNick, :classroom, :numberClass, NULL, :commun)");
-
+            $statement = $con->prepare("INSERT INTO materiascurso (codigo, materia, apelidoMateria, classe, apelidoClasse, ano, qtdAulas, periodo, id, commun) VALUES (:code, :class, :classNick, :classroom, :classroomNick, :year, :numberClass, :period, NULL, :commun)");
             //troca TRUE ou FALSE por 0 // 1 no $param[commun];
             if($param['commun'] == 'true'){
                 $ncommun = 1;
             }else{
                 $ncommun = 0;
             }
+
             
+
             //substitui o :_mark por um valor, e expecifica o tipo do valor (explicitado por segurança);
             $statement->bindValue(":code", $param['code'], PDO::PARAM_STR);
             $statement->bindValue(":class", $param['name'], PDO::PARAM_STR);
             $statement->bindValue(":classNick", $param['nick'], PDO::PARAM_STR);
-            $statement->bindValue(":classroom", $id, PDO::PARAM_INT);       
+            $statement->bindValue(":classroom", $param['classroom'], PDO::PARAM_STR);
+            $statement->bindValue(":classroomNick", $param['clroomNick'], PDO::PARAM_STR);
+            $statement->bindValue(":year", $param['year'], PDO::PARAM_STR);
             $statement->bindValue(":numberClass", $param['numberClass'], PDO::PARAM_STR);
-            $statement->bindValue(":commun", $ncommun, PDO::PARAM_STR);
+            $statement->bindValue(":period", $param['period'], PDO::PARAM_STR);
+            $statement->bindValue(":commun", $param['commun'], PDO::PARAM_INT);
+            
 
         } catch (Exception $e) {
             echo "ERROR " . $e;

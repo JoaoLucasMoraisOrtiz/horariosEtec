@@ -22,34 +22,6 @@ SET time_zone = "+00:00";
 --
 
 -- --------------------------------------------------------
-
---
--- Estrutura da tabela `class`
---
-
-CREATE TABLE `class` (
-  `id` int(11) NOT NULL,
-  `classroom` varchar(250) NOT NULL,
-  `classroomNick` varchar(20) NOT NULL,
-  `year` int(1) NOT NULL,
-  `period` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Extraindo dados da tabela `class`
---
-
-INSERT INTO `class` (`id`, `classroom`, `classroomNick`, `year`, `period`) VALUES
-(1, 'INFORMATICA PARA INTERNET', 'EMIA', 3, 'INTEGRAL'),
-(2, 'DESENVOLVIMENTO DE SISTEMAS', 'EMDS', 2, 'INTEGRAL'),
-(14, 'DESENVOLVIMENTO DE SISTEMAS', 'EMDS', 2, 'INTEGRAL'),
-(15, 'DESENVOLVIMENTO DE SISTEMAS', 'EMDS', 2, 'INTEGRAL'),
-(16, 'DESENVOLVIMENTO DE SISTEMAS', 'EMDS', 2, 'INTEGRAL'),
-(17, 'DESENVOLVIMENTO DE SISTEMAS', 'EMDS', 2, 'INTEGRAL'),
-(18, 'DESENVOLVIMENTO DE SISTEMAS', 'EMDS', 2, 'INTEGRAL');
-
--- --------------------------------------------------------
-
 --
 -- Estrutura da tabela `materiascurso`
 --
@@ -60,16 +32,13 @@ CREATE TABLE `materiascurso` (
   `materia` varchar(50) NOT NULL,
   `apelidoMateria` varchar(10) NOT NULL,
   `classe` int(200) NOT NULL,
+  `apelidoClasse` varchar(20) NOT NULL,
+  `ano` int(1) NOT NULL,
   `qtdAulas` int(2) NOT NULL,
+  `periodo` varchar(20) NOT NULL,
   `commun` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Extraindo dados da tabela `materiascurso`
---
-
-INSERT INTO `materiascurso` (`id`, `codigo`, `materia`, `apelidoMateria`, `classe`, `qtdAulas`, `commun`) VALUES
-(1, 3, 'PROGRAMAÇÃO WEB II', 'PWII', 1, 4, 1);
 
 --
 -- Índices para tabelas despejadas
@@ -93,27 +62,14 @@ ALTER TABLE `materiascurso`
 --
 
 --
--- AUTO_INCREMENT de tabela `class`
---
-ALTER TABLE `class`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
-
---
 -- AUTO_INCREMENT de tabela `materiascurso`
 --
 ALTER TABLE `materiascurso`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restrições para despejos de tabelas
 --
-
---
--- Limitadores para a tabela `materiascurso`
---
-ALTER TABLE `materiascurso`
-  ADD CONSTRAINT `fk_class` FOREIGN KEY (`classe`) REFERENCES `class` (`id`);
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
