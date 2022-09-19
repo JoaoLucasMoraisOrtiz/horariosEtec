@@ -18,9 +18,12 @@ class Classroom
 
         $db = new Organization;
 
-        $db->db_methods('POST', 'classroom', $data);
-
+        foreach ($data as $key => $value) {
+            $db->db_methods('POST', 'classroom', $value);
+        }
+        exit;
         
+
     }
 
     /**

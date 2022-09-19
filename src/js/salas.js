@@ -234,20 +234,18 @@ function dump(obj) {
 function openQuerry(){
     simple = document.getElementById('generalQuerry').value
     if (simple != 0){
-
-        obj = '';
+        obj = simple;
         $.ajax({
             type: "POST",
             url: 'http://localhost:8000/salas',
             data: { "get": obj },
             success: function (response) {
-
-                data = JSON.parse(response);
+                
+                data = response;
                 results = document.getElementById('querryResults');
                 $('#querryField').modal('hide');
                 for (let index = 0; index < data.length; index++) {
                     dump(data[index])
-                    
                 }                
 
             },

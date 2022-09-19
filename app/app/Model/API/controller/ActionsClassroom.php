@@ -123,7 +123,8 @@ class ActionsClassroom
      */
     public function get($querry = '')
     {
-        
+        return json_encode("teste") ;
+        exit;
         //conexão com o BD;
         try {
             $con = '';
