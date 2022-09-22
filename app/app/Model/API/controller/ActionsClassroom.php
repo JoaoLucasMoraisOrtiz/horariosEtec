@@ -218,8 +218,6 @@ class ActionsClassroom
                 $ncommun = 0;
             }
 
-            
-
             //substitui o :_mark por um valor, e expecifica o tipo do valor (explicitado por segurança);
             $statement->bindValue(":code", $param['code'], PDO::PARAM_STR);
             $statement->bindValue(":class", $param['name'], PDO::PARAM_STR);
@@ -240,14 +238,12 @@ class ActionsClassroom
         try {
             //tenta executar a string que estava sendo preparada, ou seja, envia para o DB os dados.
             if ($statement->execute()) {
-                //pega o ID do usuário que foi enviado para o DB;
-                $this->id = $con->lastInsertId();
-                //exibe o usuário inserido na DB;
-                return $this->get($this->id);
+                //retorna TRUE;
+                return true;
             }
         } catch (Exception $e) {
             //em caso de erro 
-            echo `window.allert('Erro ao conectar com o banco de dados! <br> {$e->getMessage()}')`;
+            return false;
         }
         return [];
     }

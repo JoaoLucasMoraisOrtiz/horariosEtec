@@ -4,6 +4,7 @@
 namespace App\Controller\Tables;
 
 use \App\Model\Entity\Organization;
+use FFI\Exception;
 
 class Classroom
 {
@@ -14,13 +15,37 @@ class Classroom
      * @return bool
      */
     static function createNewClassroom($data){
-        //aqui deverá ser tratado a entrada do dado na DB
 
+        //instancia da DB
         $db = new Organization;
 
+        /* 
+            Aqui temos um improviso para substituir uma função async.
+            O foreach deve esperar que o 1º input na DB seja concluído para enviar o 2º,
+            para isto deveríamos utilizar uma função async que aguardaria a resposta.
+            O PHP puro, como esta sendo utilizado neste projeto, não possui esta função,
+            entretanto podemos utilizar o sleep, que pausa o código por algum tempo, e depois
+            continua-o. Desta forma podemos fazer com que o foreach funcione como um async.
+        */
+
+        //percorre os valores de $data
         foreach ($data as $key => $value) {
-            $db->db_methods('POST', 'classroom', $value);
+            try {
+                //cria a requisição na DB, e recebe uma resposta (True//False);
+                $anser = $db->db_methods('POST', 'classroom', $value);
+                //espera 0.9 segundos
+                sleep(0.9);
+                //caso a entrada na DB falhar, exibe um erro.
+                if (!$anser) {
+                    throw new Exception("O servidor não pode inserir as requisições, time out", 1);            
+                }
+            
+            } catch (Exception $e) {
+                //caso algo mais falhar, exibe um erro.
+                print_r('o servidor está com erro');
+            }
         }
+        //exita para não dar erro no método run();
         exit;
         
 

@@ -72,11 +72,13 @@ class Organization
 
             if(gettype($params) == 'array'){
 
-                //passa por cada matéria programada
-                foreach ($params as $item) {
+                try {
+                    //adciona na DB os dados
+                    $anser = $this->api->post($params);
+                    return $anser;
 
-                    //adciona a matéria no banco de dados
-                    $this->api->post($item);
+                } catch (\Throwable $e) {
+                    return "error: ".$e;
                 }
                 
             }
