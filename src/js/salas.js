@@ -193,8 +193,11 @@ function sendRoom() {
         data: { "newClass": obj },
         success: function (response) {
 
-            confirm = response;
-            window.alert(confirm + '\n' + obj);
+            r = response;
+            if(r == 1){
+                $('#newClassModal').modal('hide');
+                confirmation('a sala foi criada com sucesso', 'fechar', '')
+            }
         },
         error: function (response) {
             window.alert('Perdão, tivemos um Erro... Recarregue a página e tente novamente')
@@ -254,4 +257,42 @@ function openQuerry(){
             }
         });
     }
+}
+
+/**
+ * método responsável por gerar o modal de confirmação de uma ação
+ * 
+ * @param {string} massage texto para o corpo do modal
+ * @param {string} confirm texto para o botão de confirmar
+ * @param {string} decline texto para o botão de cancelar
+ */
+function confirmation(massage, confirm='', decline=''){
+
+    let decision;
+
+    modal = document.getElementById('confirmation');
+
+    field = document.getElementById('confirmationMassange');
+    field.innerHTML = massage;
+    
+    if(!(confirm === '')){
+        btnConfirm = document.getElementById('acceptBtn');
+        btnConfirm.innerHTMl = confirm;
+    }
+    
+    if(!(decline === '')){
+        btnDecline = document.getElementById('declineBtn');
+        btnDecline.innerHTML = decline;   
+    }
+
+    btnConfirm.onclick = () => {
+        decision = true;
+        return decision;
+    }
+
+    btnDecline.onclick = () => {
+        decision = false;
+        return decision;
+    }
+
 }

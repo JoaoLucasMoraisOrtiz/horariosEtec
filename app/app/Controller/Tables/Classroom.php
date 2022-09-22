@@ -45,6 +45,7 @@ class Classroom
                 print_r('o servidor está com erro');
             }
         }
+        print_r(true);    
         //exita para não dar erro no método run();
         exit;
         
