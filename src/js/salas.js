@@ -1,3 +1,5 @@
+const { existsSync } = require("original-fs");
+
 let countSubjects = 1;
 let obj = {};
 
@@ -66,10 +68,10 @@ function verifyId(inputPlace) {
                 radio.setAttribute('type', 'checkbox');
                 radio.setAttribute('class', 'form-check-input');
                 radio.setAttribute('value', 'true');
-                
+
                 //checkbox texto
                 var radioText = document.createElement('label');
-                radioText.setAttribute('for', 'sub'+ countSubjects + 'Commun');
+                radioText.setAttribute('for', 'sub' + countSubjects + 'Commun');
                 radioText.innerText = ' Núcleo comum';
 
                 //linha hr
@@ -186,6 +188,9 @@ function getClass() {
 
 }
 
+/**
+ * Método responsável por enviar a sala cadastrada com suas matérias para a DB
+ */
 function sendRoom() {
     $.ajax({
         type: "POST",
@@ -194,9 +199,9 @@ function sendRoom() {
         success: function (response) {
 
             r = response;
-            if(r == 1){
+            if (r == 1) {
                 $('#newClassModal').modal('hide');
-                confirmation('a sala foi criada com sucesso', 'fechar', '')
+                confirmation('a sala foi criada com sucesso', '', 'fechar')
             }
         },
         error: function (response) {
@@ -216,6 +221,10 @@ function count(value) {
     return countSubjects
 }
 
+/**
+ * escreve na tela um objeto
+ * @param {object} obj 
+ */
 function dump(obj) {
     var out = '';
 
@@ -224,33 +233,45 @@ function dump(obj) {
         out += i + ": " + obj[i] + "\n";
     }
 
-    
+
     //escreve na tela os dumps do obj
     results = document.getElementById('querryResults');
     pre = document.createElement('pre');
     hr = document.createElement('hr');
     pre.innerHTML = out;
+    /* results.innerHTML = ''; */
     results.appendChild(pre);
     results.appendChild(hr);
 }
 
-function openQuerry(){
+/**
+ * Método responsável por trazer a querry na tela
+ */
+function openQuerry() {
     simple = document.getElementById('generalQuerry').value
-    if (simple != 0){
-        obj = simple;
+    if (simple != 0) {
+        /* obj = simple; */
         $.ajax({
             type: "POST",
             url: 'http://localhost:8000/salas',
-            data: { "get": obj },
+            data: { "get": simple },
             success: function (response) {
-                
-                data = response;
+
+                data = JSON.parse(response);
+                if (simple == 'classroom') {
+                    order(data, simple);
+                };
+                if (simple == 'commun') {
+                    order(data, simple)
+                }
+
+                /* for (let index = 0; index < data.length; index++) {
+                    dump(data[index]);
+
+                } */
+
                 results = document.getElementById('querryResults');
                 $('#querryField').modal('hide');
-                for (let index = 0; index < data.length; index++) {
-                    dump(data[index])
-                }                
-
             },
             error: function (response) {
                 window.alert('Perdão, tivemos um Erro... Recarregue a página e tente novamente')
@@ -266,33 +287,113 @@ function openQuerry(){
  * @param {string} confirm texto para o botão de confirmar
  * @param {string} decline texto para o botão de cancelar
  */
-function confirmation(massage, confirm='', decline=''){
+function confirmation(massage, confirm = '', decline = '') {
 
     let decision;
 
     modal = document.getElementById('confirmation');
+    modalMassage = document.getElementById('confirmationMassange');
+    modalMassage.innerHTML = massage;
 
-    field = document.getElementById('confirmationMassange');
-    field.innerHTML = massage;
-    
-    if(!(confirm === '')){
+    //caso confirm
+    if (!(confirm === '')) {
         btnConfirm = document.getElementById('acceptBtn');
-        btnConfirm.innerHTMl = confirm;
-    }
-    
-    if(!(decline === '')){
         btnDecline = document.getElementById('declineBtn');
-        btnDecline.innerHTML = decline;   
+
+        btnConfirm.innerHTML = confirm;
+        btnConfirm.setAttribute('data-dismiss', 'modal');
+
+        btnDecline.setAttribute('style', 'visibility:hidden;');
+
     }
 
-    btnConfirm.onclick = () => {
-        decision = true;
-        return decision;
+    //caso decline
+    if (!(decline === '')) {
+        btnConfirm = document.getElementById('acceptBtn');
+        btnDecline = document.getElementById('declineBtn');
+
+        btnDecline.innerHTML = decline;
+        btnDecline.setAttribute('data-dismiss', 'modal');
+
+        btnConfirm.setAttribute('style', 'visibility:hidden;');
+
     }
 
-    btnDecline.onclick = () => {
-        decision = false;
-        return decision;
+    $('#confirmation').modal();
+
+}
+
+/**
+ * Método responsável por organizar as respostas das pesquisas simples, e imprimi-las na tela;
+ * @param {object} obj uma array com a resposta da DB
+ * @param {string} type o método de pesquisa que foi utilizado (pesquisa simples)
+ */
+function order(obj, type = 'classroom') {
+
+    c = [];
+
+    if (type == 'classroom') {
+
+        //mapeia o array obj, e retorna os nomes de todas as classes
+        for (const key in obj) {
+            if (Object.hasOwnProperty.call(obj, key)) {
+                const element = obj[key];
+                c.push([element['apelidoClasse'] + ', ano: ' + element['ano']]);
+            }
+        }
+        dump(c);
     }
+
+    if (type == 'commun') {
+
+        end = [];
+
+
+        //mapeia o array obj, e retorna todas as matérias de núcleo comum
+        for (const key in obj) {
+            if (Object.hasOwnProperty.call(obj, key)) {
+                const element = obj[key];
+                if (element['commun']) {
+                    c.push([element['classe'], element]);
+                }
+            }
+        }
+
+        //deixa os elementos com nomes iguais agrupados
+        c.sort();
+        
+        backup = 0;
+        for (const key in c) {
+            if (Object.hasOwnProperty.call(c, key)) {
+                const element = c[key];
+                n = parseFloat(key);
+
+                if (!(backup == 0)) {
+                    if (element[1]['classe'] == backup['classe'] && element[1]['ano'] == backup['ano']) {
+
+                        if (end.length == 0) {
+                            end.push([element[1]['classe'] + ' <b>(' + element[1]['ano'] + 'º' + element[1]['apelidoClasse'] + ')<b>', backup['materia'], element[1]['materia']]);
+                        } else {
+                            end.at(-1).push(element[1]['materia'])
+                        }
+                    } else {
+                        end.push([element[1]['classe'] + ' <b>(' + element[1]['ano'] + 'º' + element[1]['apelidoClasse'] + ')<b>', element[1]['materia']])
+                    }
+                } else {
+                    end.push([element[1]['classe'] + ' <b>(' + element[1]['ano'] + 'º' + element[1]['apelidoClasse'] + ')<b>', element[1]['materia']])
+
+                }
+                backup = element[1];
+            }
+
+        }
+    }
+    for (const key in end) {
+        if (Object.hasOwnProperty.call(end, key)) {
+            const element = end[key];
+            dump(element)
+        }
+    }
+
 
 }

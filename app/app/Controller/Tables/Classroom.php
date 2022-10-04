@@ -60,7 +60,12 @@ class Classroom
     static function getClassrooms($data=''){
         $db = new Organization;
 
-        $db->db_methods('GET', 'classroom', $data);
+        if ($data == 'classroom' || $data == 'commun' || $data == 'course') {
+            $querry = $db->db_methods('GET', 'classroom');
+            print_r(json_encode($querry));
+            
+        }
+        
         print_r(FALSE);
         exit;
     }

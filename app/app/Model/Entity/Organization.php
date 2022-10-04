@@ -49,7 +49,7 @@ class Organization
      * @param array $param
      * @return array/instance quando $method == GET/quando $method == INSTANCE
      */
-    public function db_methods($method, $table, $params = 0)
+    public function db_methods($method, $table, $params = '')
     {
 
         if (strtoupper($method) == "GET") {

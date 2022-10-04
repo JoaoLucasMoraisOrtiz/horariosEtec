@@ -123,8 +123,7 @@ class ActionsClassroom
      */
     public function get($querry = '')
     {
-        return json_encode("teste") ;
-        exit;
+
         //conexão com o BD;
         try {
             $con = '';
@@ -152,13 +151,10 @@ class ActionsClassroom
 
             try {
 
-
                 //tenta executar a string que estava sendo preparada, ou seja, envia para o DB os dados.
-                $statement->execute();
+                $statement->execute();           
 
-                
-
-                print_r(json_encode($statement->fetchAll(PDO::FETCH_ASSOC)));
+                return $statement->fetchAll(PDO::FETCH_ASSOC);
             } catch (Exception $e) {
                 //em caso de erro 
                 echo `window.allert('Erro ao conectar com o banco de dados! <br> {$e->getMessage()}')`;
@@ -227,7 +223,7 @@ class ActionsClassroom
             $statement->bindValue(":year", $param['year'], PDO::PARAM_STR);
             $statement->bindValue(":numberClass", $param['numberClass'], PDO::PARAM_STR);
             $statement->bindValue(":period", $param['period'], PDO::PARAM_STR);
-            $statement->bindValue(":commun", $param['commun'], PDO::PARAM_INT);
+            $statement->bindValue(":commun", $ncommun, PDO::PARAM_BOOL);
             
 
         } catch (Exception $e) {
