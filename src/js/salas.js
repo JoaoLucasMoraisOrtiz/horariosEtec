@@ -1,5 +1,3 @@
-const { existsSync } = require("original-fs");
-
 let countSubjects = 1;
 let obj = {};
 
@@ -262,7 +260,10 @@ function openQuerry() {
                     order(data, simple);
                 };
                 if (simple == 'commun') {
-                    order(data, simple)
+                    order(data, simple);
+                }
+                if(simple == 'course'){
+                    order(data, simple);
                 }
 
                 /* for (let index = 0; index < data.length; index++) {
@@ -361,39 +362,112 @@ function order(obj, type = 'classroom') {
 
         //deixa os elementos com nomes iguais agrupados
         c.sort();
-        
+
+        //variável que vai ser utilizada para fazer a comparação entre as entradas de sala
         backup = 0;
+
+        //mapeamos cada elemento de c,
         for (const key in c) {
             if (Object.hasOwnProperty.call(c, key)) {
                 const element = c[key];
                 n = parseFloat(key);
 
+                //caso o backup não seja 0, ou seja, não é a primeira entrada:
                 if (!(backup == 0)) {
+                    //se a classe do elemento, e a classe do backup além do ano do elemento e o ano do backup são iguais:
                     if (element[1]['classe'] == backup['classe'] && element[1]['ano'] == backup['ano']) {
 
+                        //verifica se o end já possuí algum elemento, ou se é a primeira entrada
                         if (end.length == 0) {
+                            //se é a primeira entrada, adciona o titulo + matérias
                             end.push([element[1]['classe'] + ' <b>(' + element[1]['ano'] + 'º' + element[1]['apelidoClasse'] + ')<b>', backup['materia'], element[1]['materia']]);
                         } else {
+                            //se não, adciona somente a matéria
                             end.at(-1).push(element[1]['materia'])
                         }
                     } else {
+                        //se a classe e o ano não são iguais, adciona um titulo e a matéria
                         end.push([element[1]['classe'] + ' <b>(' + element[1]['ano'] + 'º' + element[1]['apelidoClasse'] + ')<b>', element[1]['materia']])
                     }
                 } else {
+                    //caso o backup seja zero, quer dizer que é a primeira entrada do for, logo adciona titulo e matéria
                     end.push([element[1]['classe'] + ' <b>(' + element[1]['ano'] + 'º' + element[1]['apelidoClasse'] + ')<b>', element[1]['materia']])
 
                 }
+                //backup recebe o elemento
                 backup = element[1];
             }
 
         }
-    }
-    for (const key in end) {
-        if (Object.hasOwnProperty.call(end, key)) {
-            const element = end[key];
-            dump(element)
+        //escreve end na tela;
+        for (const key in end) {
+            if (Object.hasOwnProperty.call(end, key)) {
+                const element = end[key];
+                dump(element)
+            }
         }
     }
 
+    if (type == 'course') {
+
+        end = [];
+
+        //mapeia o array obj, e retorna todas as matérias de curso
+        for (const key in obj) {
+            if (Object.hasOwnProperty.call(obj, key)) {
+                const element = obj[key];
+                if (!(element['commun'])) {
+                    c.push([element['classe'], element]);
+                }
+            }
+        }
+
+        //deixa os elementos com nomes iguais agrupados
+        c.sort();
+
+        //variável que vai ser utilizada para fazer a comparação entre as entradas de sala
+        backup = 0;
+
+        //mapeamos cada elemento de c,
+        for (const key in c) {
+            if (Object.hasOwnProperty.call(c, key)) {
+                const element = c[key];
+                n = parseFloat(key);
+
+                //caso o backup não seja 0, ou seja, não é a primeira entrada:
+                if (!(backup == 0)) {
+                    //se a classe do elemento, e a classe do backup além do ano do elemento e o ano do backup são iguais:
+                    if (element[1]['classe'] == backup['classe'] && element[1]['ano'] == backup['ano']) {
+
+                        //verifica se o end já possuí algum elemento, ou se é a primeira entrada
+                        if (end.length == 0) {
+                            //se é a primeira entrada, adciona o titulo + matérias
+                            end.push([element[1]['classe'] + ' <b>(' + element[1]['ano'] + 'º' + element[1]['apelidoClasse'] + ')<b>', backup['materia'], element[1]['materia']]);
+                        } else {
+                            //se não, adciona somente a matéria
+                            end.at(-1).push(element[1]['materia'])
+                        }
+                    } else {
+                        //se a classe e o ano não são iguais, adciona um titulo e a matéria
+                        end.push([element[1]['classe'] + ' <b>(' + element[1]['ano'] + 'º' + element[1]['apelidoClasse'] + ')<b>', element[1]['materia']])
+                    }
+                } else {
+                    //caso o backup seja zero, quer dizer que é a primeira entrada do for, logo adciona titulo e matéria
+                    end.push([element[1]['classe'] + ' <b>(' + element[1]['ano'] + 'º' + element[1]['apelidoClasse'] + ')<b>', element[1]['materia']])
+
+                }
+                //backup recebe o elemento
+                backup = element[1];
+            }
+
+        }
+        //escreve end na tela;
+        for (const key in end) {
+            if (Object.hasOwnProperty.call(end, key)) {
+                const element = end[key];
+                dump(element)
+            }
+        }
+    }
 
 }
