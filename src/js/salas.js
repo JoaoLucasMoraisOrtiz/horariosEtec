@@ -228,7 +228,7 @@ function dump(obj) {
 
     //percorre o obj e adciona-o em *out*
     for (var i in obj) {
-        out += i + ": " + obj[i] + "\n";
+        out += obj[i] + "\n";
     }
 
 
@@ -262,7 +262,7 @@ function openQuerry() {
                 if (simple == 'commun') {
                     order(data, simple);
                 }
-                if(simple == 'course'){
+                if (simple == 'course') {
                     order(data, simple);
                 }
 
@@ -335,14 +335,61 @@ function order(obj, type = 'classroom') {
 
     if (type == 'classroom') {
 
+        end = [];
+
         //mapeia o array obj, e retorna os nomes de todas as classes
         for (const key in obj) {
             if (Object.hasOwnProperty.call(obj, key)) {
                 const element = obj[key];
-                c.push([element['apelidoClasse'] + ', ano: ' + element['ano']]);
+                c.push([element['classe']+element['ano'], element]);
+                //c.push([element['apelidoClasse'] + ', ano: ' + element['ano']]);
             }
         }
-        dump(c);
+        c.sort();
+        
+        backup = 0;
+
+        //mapeamos cada elemento de c,
+        for (const key in c) {
+            if (Object.hasOwnProperty.call(c, key)) {
+                const element = c[key];
+                n = parseFloat(key);
+
+                //caso o backup não seja 0, ou seja, não é a primeira entrada:
+                if (!(backup == 0)) {
+                    //se a classe do elemento, e a classe do backup além do ano do elemento e o ano do backup são iguais:
+                    if (element[1]['classe'] == backup['classe'] && element[1]['ano'] == backup['ano']) {
+
+                        //verifica se o end já possuí algum elemento, ou se é a primeira entrada
+                        if (end.length == 0) {
+                            //se é a primeira entrada, adciona o titulo + matérias
+                            end.push(['</select><select name=" ' + [element[1]['classe'] + '">'+ '<option value="" selected>' + element[1]['classe'] + element[1]['ano'] + '</option>'+ '<option value="' + element[1]['materia'] + '">' + element[1]['materia'] + '</option>'+'<option value="' + backup['materia'] + '">' + backup['materia'] + '</option>']]);
+                        } else {
+                            
+                            //se não, adciona somente a matéria
+                            end.at(-1).push('<option value="' + element[1]['materia'] + '">' + element[1]['materia'] + '</option>')
+                        }
+                    } else {
+                        //se a classe e o ano não são iguais, adciona um titulo e a matéria
+                        end.push(['</select><select name=" ' + [element[1]['classe'] + '">'+ '<option value="" selected>' + element[1]['classe'] +element[1]['ano']+ '</option>'+ '<option value="' + element[1]['materia'] + '">' + element[1]['materia'] + '</option>']])
+                    }
+                } else {
+                    //caso o backup seja zero, quer dizer que é a primeira entrada do for, logo adciona titulo e matéria
+                    end.push(['<select name=" ' + [element[1]['classe'] + '">'+ '<option value="" selected>' + element[1]['classe'] + '</option>'+ '<option value="' + element[1]['materia'] + '">' + element[1]['materia'] + '</option>']])
+
+                }
+                //backup recebe o elemento
+                backup = element[1];
+            }
+
+        }
+        //escreve end na tela;
+        for (const key in end) {
+            if (Object.hasOwnProperty.call(end, key)) {
+                const element = end[key];
+                dump(element)
+            }
+        }
     }
 
     if (type == 'commun') {
@@ -469,5 +516,4 @@ function order(obj, type = 'classroom') {
             }
         }
     }
-
 }
