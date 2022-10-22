@@ -15,7 +15,7 @@ class Classroom
      * @return bool
      */
     static function createNewClassroom($data){
-
+        
         //instancia da DB
         $db = new Organization;
 
@@ -31,13 +31,30 @@ class Classroom
         //percorre os valores de $data
         foreach ($data as $key => $value) {
             try {
+                $anser = '';
+
                 //cria a requisição na DB, e recebe uma resposta (True//False);
                 $anser = $db->db_methods('POST', 'classroom', $value);
-                //espera 0.9 segundos
-                sleep(0.9);
+                $c = true;
+                while ($c) {
+                    
+                    try {
+                        
+                        if($anser['1']){
+                            $c = false;
+                        } else if (!$anser['0']){
+                            $c = false;
+                        }
+                    } catch (Exception $e){
+                        continue;
+                    }
+                }
                 //caso a entrada na DB falhar, exibe um erro.
-                if (!$anser) {
-                    throw new Exception("O servidor não pode inserir as requisições, time out", 1);            
+                if (array_key_exists('0', $anser)) {
+                    if(!$anser['0']){
+                        throw new Exception("O servidor não pode inserir as requisições, time out", 1);            
+                    }
+                    
                 }
             
             } catch (Exception $e) {

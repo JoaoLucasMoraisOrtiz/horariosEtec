@@ -235,11 +235,11 @@ class ActionsClassroom
             //tenta executar a string que estava sendo preparada, ou seja, envia para o DB os dados.
             if ($statement->execute()) {
                 //retorna TRUE;
-                return true;
+                return ['1' => true];
             }
         } catch (Exception $e) {
             //em caso de erro 
-            return false;
+            return ['0'=>false];
         }
         return [];
     }
