@@ -90,9 +90,22 @@ $obRouter->post('/salas', [
         }
 
 
-        if (isset($data['query'])) {
-            Tables\Classroom::deepQuerry($data['query']);
+        if (isset($data['querry'])) {
+            $d = $data['querry'];
+            Tables\Classroom::deepQuerry($d);
             exit;
+        }
+
+        if (isset($data['delete'])){
+
+            $id = $data['delete'];
+            Tables\Classroom::deleteClass($id);
+            
+        }
+
+        if (isset($data['update'])){
+            $cond = $data['update'];
+            Tables\Classroom::updateClass($cond);
         }
     }
 ]);

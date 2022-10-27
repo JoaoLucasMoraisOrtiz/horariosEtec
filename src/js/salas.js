@@ -1,12 +1,17 @@
-let countSubjects = 1;
+let countSubjects;
+countSubjects = 1;
 let obj = {};
+let elemsToRemove;
+elemsToRemove = [];
+let allClassrooms;
+allClassrooms = [];
 
 /**
  * Método responsável por verificar se a matéria do id registrado existe no banco de dados
  * 
  * @param {string} inputPlace <- o id da caixa onde o usuário digitou o id da materia
  */
-function verifyId(inputPlace) {
+function verifyId(inputPlace, divName='subjects') {
 
     id = document.getElementById(inputPlace).value;
 
@@ -29,7 +34,7 @@ function verifyId(inputPlace) {
             if (!confirm) {
 
                 //div que ira conter os campos para acrescentar as informaçoes da materia
-                father = document.getElementById('subjects');
+                father = document.getElementById(divName)
                 count(1);
                 var div = document.createElement('div');
                 div.setAttribute('id', 'sub' + countSubjects);
@@ -70,7 +75,7 @@ function verifyId(inputPlace) {
                 //checkbox texto
                 var radioText = document.createElement('label');
                 radioText.setAttribute('for', 'sub' + countSubjects + 'Commun');
-                radioText.innerText = ' Núcleo comum';
+                radioText.innerText = 'Núcleo comum';
 
                 //linha hr
                 var p = document.createElement('hr');
@@ -79,7 +84,7 @@ function verifyId(inputPlace) {
 
                 //botão que adiciona a mateira dentro do dicionario de materias
                 var btn = document.createElement('button');
-                btn.setAttribute('onclick', 'getClass()');
+                btn.setAttribute('onclick', 'getClass("true")');
                 btn.setAttribute('class', 'btn btn-success');
                 btn.textContent = 'salvar';
 
@@ -111,7 +116,7 @@ function verifyId(inputPlace) {
 /**
  * Método responsável por adcionar os valores digitados pelo usuário ao dicionário que será enviado a DB
  */
-function getClass() {
+function getClass(edit='false') {
     var name = document.getElementById('sub' + countSubjects + 'Name');
     var nick = document.getElementById('sub' + countSubjects + 'Nick');
     var classroom = document.getElementById('nCName');
@@ -139,7 +144,12 @@ function getClass() {
     // remove the last list item
     e.remove();
 
-    father = document.getElementById('codeClass');
+    if(edit=='false'){
+        father = document.getElementById('codeClass');
+    }else{
+        father = document.getElementById('codeClassEdit');
+    }
+    
 
     var div1 = document.createElement('div');
     div1.setAttribute('class', 'row');
@@ -190,6 +200,7 @@ function getClass() {
  * Método responsável por enviar a sala cadastrada com suas matérias para a DB
  */
 function sendRoom() {
+
     $.ajax({
         type: "POST",
         url: 'http://localhost:8000/salas',
@@ -197,7 +208,8 @@ function sendRoom() {
         success: function (response) {
 
             r = response;
-            if (r == 1) {
+            console.log(r)
+            if (r[0] == 1) {
                 $('#newClassModal').modal('hide');
                 confirmation('a sala foi criada com sucesso', '', 'fechar')
             }
@@ -208,14 +220,22 @@ function sendRoom() {
     });
 }
 
-function remove(id) {
-    delete obj[id];
-    const e = document.getElementById(id);
+function remove(id, edit = false) {
+    if (!edit) {
+        delete obj[id];
+        const e = document.getElementById(id);
 
-    // remove the last list item
-    e.remove();
+        // remove the last list item
+        e.remove();
+    } else {
+        const e = document.getElementById(id);
+
+        // remove the last list item
+        e.remove();
+    }
 }
 function count(value) {
+    countSubjects = countSubjects + value
     return countSubjects
 }
 
@@ -223,29 +243,31 @@ function count(value) {
  * escreve na tela um objeto
  * @param {object} obj 
  */
-function dump(obj) {
+function dump(obj, pre) {
     var out = '';
 
     //percorre o obj e adciona-o em *out*
     for (var i in obj) {
-        out += obj[i] + "\n";
+        out += obj[i] + "<br>";
     }
 
 
     //escreve na tela os dumps do obj
     results = document.getElementById('querryResults');
-    pre = document.createElement('pre');
-    hr = document.createElement('hr');
+    if (pre) {
+        pre = document.createElement('pre');
+    } else {
+        pre = document.createElement('p')
+    }
     pre.innerHTML = out;
-    /* results.innerHTML = ''; */
     results.appendChild(pre);
-    results.appendChild(hr);
 }
 
 /**
  * Método responsável por trazer a querry na tela
  */
 function openQuerry() {
+    document.getElementById('querryResults').innerHTML = '';
     simple = document.getElementById('generalQuerry').value
     if (simple != 0) {
         /* obj = simple; */
@@ -341,12 +363,12 @@ function order(obj, type = 'classroom') {
         for (const key in obj) {
             if (Object.hasOwnProperty.call(obj, key)) {
                 const element = obj[key];
-                c.push([element['classe']+element['ano'], element]);
+                c.push([element['classe'] + element['ano'], element]);
                 //c.push([element['apelidoClasse'] + ', ano: ' + element['ano']]);
             }
         }
         c.sort();
-        
+
         backup = 0;
 
         //mapeamos cada elemento de c,
@@ -357,25 +379,26 @@ function order(obj, type = 'classroom') {
 
                 //caso o backup não seja 0, ou seja, não é a primeira entrada:
                 if (!(backup == 0)) {
+
                     //se a classe do elemento, e a classe do backup além do ano do elemento e o ano do backup são iguais:
                     if (element[1]['classe'] == backup['classe'] && element[1]['ano'] == backup['ano']) {
 
                         //verifica se o end já possuí algum elemento, ou se é a primeira entrada
                         if (end.length == 0) {
                             //se é a primeira entrada, adciona o titulo + matérias
-                            end.push(['</select><select name=" ' + [element[1]['classe'] + '">'+ '<option value="" selected>' + element[1]['classe'] + element[1]['ano'] + '</option>'+ '<option value="' + element[1]['materia'] + '">' + element[1]['materia'] + '</option>'+'<option value="' + backup['materia'] + '">' + backup['materia'] + '</option>']]);
+                            end.push(['</select><div class="row"><button type="button" class="btn btn-primary" data-toggle="modal" onclick="openEditModal(\'' + element[1]['ano'] + '\',\'' + element[1]['classe'] + '\')">Editar Sala</button></div><select name=" ' + [element[1]['classe'] + '" class="form-select" multiple aria-label="multiple select example">' + '<option value="" selected><h3>' + element[1]['ano'] + 'º ' + element[1]['classe'] + '</h3></option>' + '<option value="' + element[1]['materia'] + '">' + element[1]['materia'] + '</option>' + '<option value="' + backup['materia'] + '">' + backup['materia'] + '</option>']]);
                         } else {
-                            
+
                             //se não, adciona somente a matéria
                             end.at(-1).push('<option value="' + element[1]['materia'] + '">' + element[1]['materia'] + '</option>')
                         }
                     } else {
                         //se a classe e o ano não são iguais, adciona um titulo e a matéria
-                        end.push(['</select><select name=" ' + [element[1]['classe'] + '">'+ '<option value="" selected>' + element[1]['classe'] +element[1]['ano']+ '</option>'+ '<option value="' + element[1]['materia'] + '">' + element[1]['materia'] + '</option>']])
+                        end.push(['</select><hr><div class="row"><button type="button" class="btn btn-primary" data-toggle="modal" onclick="openEditModal(\'' + element[1]['ano'] + '\',\'' + element[1]['classe'] + '\')">Editar Sala</button></div><select name=" ' + [element[1]['classe'] + '" class="form-select" multiple aria-label="multiple select example">' + '<option value="" selected><h3>' + element[1]['ano'] + 'º ' + element[1]['classe'] + '</h3></option>' + '<option value="' + element[1]['materia'] + '">' + element[1]['materia'] + '</option>']])
                     }
                 } else {
                     //caso o backup seja zero, quer dizer que é a primeira entrada do for, logo adciona titulo e matéria
-                    end.push(['<select name=" ' + [element[1]['classe'] + '">'+ '<option value="" selected>' + element[1]['classe'] + '</option>'+ '<option value="' + element[1]['materia'] + '">' + element[1]['materia'] + '</option>']])
+                    end.push(['<br><button type="button" class="btn btn-primary" data-toggle="modal" onclick="openEditModal(\'' + element[1]['ano'] + '\',\'' + element[1]['classe'] + '\')">Editar Sala</button><select name=" ' + [element[1]['classe'] + '" class="form-select" multiple aria-label="multiple select example">' + '<option value="" selected><h3>' + element[1]['ano'] + 'º ' + element[1]['classe'] + '</h3></option>' + '<option value="' + element[1]['materia'] + '">' + element[1]['materia'] + '</option>']])
 
                 }
                 //backup recebe o elemento
@@ -387,7 +410,7 @@ function order(obj, type = 'classroom') {
         for (const key in end) {
             if (Object.hasOwnProperty.call(end, key)) {
                 const element = end[key];
-                dump(element)
+                dump(element, false)
             }
         }
     }
@@ -427,18 +450,18 @@ function order(obj, type = 'classroom') {
                         //verifica se o end já possuí algum elemento, ou se é a primeira entrada
                         if (end.length == 0) {
                             //se é a primeira entrada, adciona o titulo + matérias
-                            end.push([element[1]['classe'] + ' <b>(' + element[1]['ano'] + 'º' + element[1]['apelidoClasse'] + ')<b>', backup['materia'], element[1]['materia']]);
+                            end.push([element[1]['classe'] + ' <b>(' + element[1]['ano'] + 'º' + element[1]['apelidoClasse'] + ')</b>', backup['materia'] + ';', element[1]['materia'] + ';']);
                         } else {
                             //se não, adciona somente a matéria
-                            end.at(-1).push(element[1]['materia'])
+                            end.at(-1).push(element[1]['materia'] + ';<br>')
                         }
                     } else {
                         //se a classe e o ano não são iguais, adciona um titulo e a matéria
-                        end.push([element[1]['classe'] + ' <b>(' + element[1]['ano'] + 'º' + element[1]['apelidoClasse'] + ')<b>', element[1]['materia']])
+                        end.push(['<hr>', element[1]['classe'] + '<b>(' + element[1]['ano'] + 'º' + element[1]['apelidoClasse'] + ')<b><br>', element[1]['materia'] + ';'])
                     }
                 } else {
                     //caso o backup seja zero, quer dizer que é a primeira entrada do for, logo adciona titulo e matéria
-                    end.push([element[1]['classe'] + ' <b>(' + element[1]['ano'] + 'º' + element[1]['apelidoClasse'] + ')<b>', element[1]['materia']])
+                    end.push([element[1]['classe'] + ' <b>(' + element[1]['ano'] + 'º' + element[1]['apelidoClasse'] + ')<b>', element[1]['materia'] + ';'])
 
                 }
                 //backup recebe o elemento
@@ -489,18 +512,18 @@ function order(obj, type = 'classroom') {
                         //verifica se o end já possuí algum elemento, ou se é a primeira entrada
                         if (end.length == 0) {
                             //se é a primeira entrada, adciona o titulo + matérias
-                            end.push([element[1]['classe'] + ' <b>(' + element[1]['ano'] + 'º' + element[1]['apelidoClasse'] + ')<b>', backup['materia'], element[1]['materia']]);
+                            end.push([element[1]['classe'] + ' <b>(' + element[1]['ano'] + 'º' + element[1]['apelidoClasse'] + ')</b>', backup['materia'] + ';', element[1]['materia'] + ';']);
                         } else {
                             //se não, adciona somente a matéria
-                            end.at(-1).push(element[1]['materia'])
+                            end.at(-1).push(element[1]['materia'] + ';<br>')
                         }
                     } else {
                         //se a classe e o ano não são iguais, adciona um titulo e a matéria
-                        end.push([element[1]['classe'] + ' <b>(' + element[1]['ano'] + 'º' + element[1]['apelidoClasse'] + ')<b>', element[1]['materia']])
+                        end.push(['<hr>', element[1]['classe'] + '<b>(' + element[1]['ano'] + 'º' + element[1]['apelidoClasse'] + ')<b><br>', element[1]['materia'] + ';'])
                     }
                 } else {
                     //caso o backup seja zero, quer dizer que é a primeira entrada do for, logo adciona titulo e matéria
-                    end.push([element[1]['classe'] + ' <b>(' + element[1]['ano'] + 'º' + element[1]['apelidoClasse'] + ')<b>', element[1]['materia']])
+                    end.push([element[1]['classe'] + ' <b>(' + element[1]['ano'] + 'º' + element[1]['apelidoClasse'] + ')<b>', element[1]['materia'] + ';'])
 
                 }
                 //backup recebe o elemento
@@ -516,4 +539,155 @@ function order(obj, type = 'classroom') {
             }
         }
     }
+}
+
+function openEditModal(ano, classroom) {
+
+    data = 'classe="' + classroom + '" AND ano=' + ano + ';';
+
+    //pega a sala
+    resp = $.ajax({
+        type: "POST",
+        url: 'http://localhost:8000/salas',
+        data: { "querry": data },
+        success: function (response) {
+
+            modal = document.getElementById('codeClass');
+            modal.innerHTML = '';
+
+
+            response = JSON.parse(response)
+
+            classroom = document.getElementById('eCName');
+            nick = document.getElementById('eCNick');
+            year = document.getElementById('eCyear');
+            period = document.getElementById('eCperiod');
+            classes = document.getElementById('existedClasses');
+            classes.innerHTML = '';
+
+            classroom.value = response[0]['classe'];
+            nick.value = response[0]['apelidoClasse'];
+            year.value = response[0]['ano'];
+            period.value = response[0]['periodo'];
+
+            for (const key in response) {
+                if (Object.hasOwnProperty.call(response, key)) {
+                    const element = response[key];
+                    allClassrooms.push(element)
+                    const base = '<div class="row" id="' + element['id'] + '">' + element['apelidoMateria'] + '</p><button type="button" class="btn btn-danger" data-toggle="modal" onclick="deleteViewClass(\'' + element['id'] + '\')">Excluír matéria</button></div>';
+                    classroom = document.createElement('div')
+                    classroom.innerHTML = base
+                    /* console.log(classroom) */
+                    classes.appendChild(classroom)
+                }
+            }
+        },
+        error: function (response) {
+            window.alert('Perdão, tivemos um Erro... Recarregue a página e tente novamente ' + response)
+        }
+    });
+    /* data = 'classe='+classroom;
+    $.ajax({
+        type:"POST",
+        url: 'https://localhost:8000/salas',
+        data: {"querry": data},
+        success: function (resp){
+            rooms = []
+            for (const key in resp) {
+                if (Object.hasOwnProperty.call(object, key)) {
+                    const element = resp[key];
+                    rooms.push('<div class=row><p>'+element+' </p><button type="button" class="btn btn-primary" data-toggle="modal" onclick="openEditModal(' + element[1]['id'] + ')">Editar Sala</button></div>');
+                }
+            }
+
+            for (const key in rooms) {
+                if (Object.hasOwnProperty.call(object, key)) {
+                    const element = rooms[key];
+                    classes.appendChild(element) ;
+                }
+            }
+        },
+        error: function(response){
+            window.alert('Perdão, tivemos um Erro... Recarregue a página e tente novamente')
+        }
+    }); */
+    $('#editClassModal').modal('show');
+}
+
+function deleteViewClass(id) {
+    elemsToRemove.push(id);
+    remove(id);
+}
+
+function deleteDbClass() {
+
+    for (const key in elemsToRemove) {
+        if (Object.hasOwnProperty.call(elemsToRemove, key)) {
+            const id = elemsToRemove[key];
+            $.ajax({
+                type: "POST",
+                url: 'http://localhost:8000/salas',
+                data: { "delete": id },
+                success: function (response) {
+
+                    if (response == 'true') {
+
+                    } else {
+                        window.alert('Desculpe, houve um erro ao apagar esta materia... Tente novamente.');
+                    }
+                },
+                error: function (response) {
+                    window.alert('Perdão, tivemos um Erro... Recarregue a página e tente novamente ')
+                    console.log(response)
+                }
+            })
+        }
+    }
+
+    for (const key in elemsToRemove) {
+        if (Object.hasOwnProperty.call(elemsToRemove, key)) {
+            const element = elemsToRemove[key];
+            allClassrooms.splice(allClassrooms.indexOf(element), 1)
+        }
+    }
+
+    //pega todos os elementos que podem ser alterados
+    classroom = document.getElementById('eCName');
+    nick = document.getElementById('eCNick');
+    year = document.getElementById('eCyear');
+    period = document.getElementById('eCperiod');
+
+    newValues = { "name": classroom.value, "nick": nick.value, "year": year.value, "period": period.value, "where": '' }
+
+    for (const key in allClassrooms) {
+        if (Object.hasOwnProperty.call(allClassrooms, key)) {
+            const element = allClassrooms[key];
+            newValues['where'] = 'id=' + element['id']
+
+            $.ajax({
+                type: "POST",
+                url: 'http://localhost:8000/salas',
+                data: { "update": newValues },
+                success: function (response) {
+                    
+                },
+                error: function (response) {
+                    window.alert('Perdão, tivemos um Erro... Recarregue a página e tente novamente ' + response)
+                }
+                })
+        }
+    }
+
+    getClass()
+    console.log(obj)
+    returnCodeClass()
+    $('#editClassModal').modal('hide');
+    newValues = [];
+};
+
+function returnCodeClass() {
+
+    t = '<p>código da matéria <input type="number" name="sub1code" id="sub1code" class="form-controll" placeholder="ex: 1"> <button class="btn btn-danger" onclick="verifyId(\'sub1code\')">verificar</button></p>'
+    addClassroom = document.getElementById('codeClass');
+    addClassroom.innerHTML = t;
 }

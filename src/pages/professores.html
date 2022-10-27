@@ -1,20 +1,67 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/index.css">
-    <script src="../js/professores.js"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
 
-    <title>Professores</title>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=, initial-scale=1.0">
+    
+        <!-- css da página + bootstrap -->
+        <link rel="stylesheet" href="../css/professores.css">
+    
+        <!-- bibliotecas jquery -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
+    
+        <!-- bibliotecas do js bootstrap -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    
+        <!-- script da página -->
+        <script src="../js/professores.js"></script>
+    
+        <title>professores</title>
+    </head>
+
 <body>
     <h1>Você está em professores</h1>
     <a href="./index.html" class="btn btn-warning">voltar</a>
-    <button class="btn btn-warning" onclick="doit()">criar entrada teste</button>
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newTeacherModal">
+        Cadastrar Professor
+    </button>
+
+    <!-- Modal create-->
+    <div class="modal fade" id="newTeacherModal" tabindex="-1" role="dialog" aria-labelledby="newTeacherModal"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="newTeacherModalLabel">Criar Sala</h5>
+                </div>
+                <div class="modal-body" id="newTeacherModalBody">
+                    <p>Nome do professor <input type="text" name="nTName" id="nTName" class="form-control"></p>
+                    <p>Apelido do professor <input type="text" name="nTNick" id="nTNick" class="form-control"></p>
+                    <p>Materia que leciona <input type="number" name="classroom" id="classroom" class="form-control"></p>
+                    <p>Pontuação no CPS <input type="number" name="points" id="points" class="form-control"
+                        placeholder="apenas numeros" min='0' oninput="validity.valid ? this.save = value : value = this.save;"></p>
+                    <p>Aulas disponíveis <input type="text" name="disp" id="disp" class="form-control"></p>
+                    <p>noturno <select name="night" id="night"></select></p>
+                    <hr>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary" onclick="sendTeacher()">Cadastrar Professor</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </body>
+
 </html>

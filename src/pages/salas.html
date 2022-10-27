@@ -45,7 +45,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="newClassModalLabel">Modal title</h5>
+                        <h5 class="modal-title" id="newClassModalLabel">Criar Sala</h5>
                     </div>
                     <div class="modal-body" id="newClassModalBody">
                         <p>Nome da classe <input type="text" name="nCName" id="nCName" class="form-control"></p>
@@ -57,11 +57,11 @@
                                 placeholder="integral, manhã, tarde ..."></p>
                         <hr>
                         <div class="scrollArea">
-                            <div id="subjects">
-                                <div id="codeClass">
+                            <div id="subjectsEdit">
+                                <div id="codeClassEdit">
                                     <p>código da matéria <input type="number" name="sub1code" id="sub1code"
                                             class="form-controll" placeholder="ex: 1"> <button class="btn btn-danger"
-                                            onclick="verifyId('sub1code')">verificar</button></p>
+                                            onclick="verifyId('sub1code', 'subjectsEdit')">verificar</button></p>
                                 </div>
                             </div>
                         </div>
@@ -69,6 +69,44 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                         <button type="button" class="btn btn-primary" onclick="sendRoom()">Cadastrar Sala</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Edit-->
+        <div class="modal fade" id="editClassModal" tabindex="-1" role="dialog" aria-labelledby="editClassModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editClassModalLabel">Edit Modal</h5>
+                    </div>
+                    <div class="modal-body" id="newClassModalBody">
+                        <p>Nome da classe <input type="text" name="eCName" id="eCName" class="form-control"></p>
+                        <p>Apelido da classe <input type="text" name="eCNick" id="eCNick" class="form-control"></p>
+                        <p>Ano Letivo da Turma <input type="number" name="eCyear" id="eCyear" class="form-control"
+                                placeholder="ano letivo: 1, 2 ou 3" min='1' max='3'
+                                oninput="validity.valid ? this.save = value : value = this.save;"></p>
+                        <p>Período das aulas <input type="text" name="eCperiod" id="eCperiod" class="form-control"
+                                placeholder="integral, manhã, tarde ..."></p>
+                        <hr>
+                        <div class="scrollArea">
+                            <div id="subjects">
+                                <div id="codeClass">
+                                    <p>código da matéria <input type="number" name="sub1code" id="sub1code"
+                                            class="form-controll" placeholder="ex: 1"> <button class="btn btn-danger"
+                                            onclick="verifyId('sub1code')">verificar</button></p>
+                                </div>
+                            </div>
+                            <div id="existedClasses">
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="returnCodeClass()">Fechar</button>
+                        <button type="button" class="btn btn-primary" onclick="deleteDbClass()">Editar Sala</button>
                     </div>
                 </div>
             </div>

@@ -143,7 +143,7 @@ class ActionsClassroom
         }
 
         if ($querry === '') {
-            
+
             $comand = "SELECT * FROM `materiascurso`";
             //prepara uma string para ser executada posteriormente com o prepare;
             //:_mark - é uma forma de se proteger, para ninguem colocar um drop database e acabar com o banco
@@ -152,7 +152,7 @@ class ActionsClassroom
             try {
 
                 //tenta executar a string que estava sendo preparada, ou seja, envia para o DB os dados.
-                $statement->execute();           
+                $statement->execute();
 
                 return $statement->fetchAll(PDO::FETCH_ASSOC);
             } catch (Exception $e) {
@@ -163,14 +163,15 @@ class ActionsClassroom
 
             //prepara uma string para ser executada posteriormente com o prepare;
             //:_mark - é uma forma de se proteger, para ninguem colocar um drop database e acabar com o banco
-            $statement = $con->prepare("SELECT * FROM materiascurso WHERE :querry");
-            $statement->bindParam(":querry", $querry, PDO::PARAM_INT);
+            $statement = $con->prepare("SELECT * FROM materiascurso WHERE " . $querry);
+            #$statement->bindParam(":querry", $querry, PDO::PARAM_INT);
+
             try {
                 //tenta executar a string que estava sendo preparada, ou seja, envia para o DB os dados.
                 $statement->execute();
 
                 //retorna o index Zero pois se não retornará uma array com nossa array dentro
-                return $statement->fetchAll(PDO::FETCH_ASSOC)[0];
+                return $statement->fetchAll(PDO::FETCH_ASSOC);
             } catch (Exception $e) {
                 //em caso de erro 
                 echo `window.allert('Erro ao conectar com o banco de dados! <br> {$e->getMessage()}')`;
@@ -208,9 +209,9 @@ class ActionsClassroom
             //:_mark - é uma forma de se proteger, para ninguem colocar um drop database e acabar com o banco
             $statement = $con->prepare("INSERT INTO materiascurso (codigo, materia, apelidoMateria, classe, apelidoClasse, ano, qtdAulas, periodo, id, commun) VALUES (:code, :class, :classNick, :classroom, :classroomNick, :year, :numberClass, :period, NULL, :commun)");
             //troca TRUE ou FALSE por 0 // 1 no $param[commun];
-            if($param['commun'] == 'true'){
+            if ($param['commun'] == 'true') {
                 $ncommun = 1;
-            }else{
+            } else {
                 $ncommun = 0;
             }
 
@@ -224,8 +225,6 @@ class ActionsClassroom
             $statement->bindValue(":numberClass", $param['numberClass'], PDO::PARAM_STR);
             $statement->bindValue(":period", $param['period'], PDO::PARAM_STR);
             $statement->bindValue(":commun", $ncommun, PDO::PARAM_BOOL);
-            
-
         } catch (Exception $e) {
             echo "ERROR " . $e;
             exit();
@@ -239,7 +238,7 @@ class ActionsClassroom
             }
         } catch (Exception $e) {
             //em caso de erro 
-            return ['0'=>false];
+            return ['0' => false];
         }
         return [];
     }
@@ -273,19 +272,13 @@ class ActionsClassroom
 
             //prepara uma string para ser executada posteriormente com o prepare;
             //:_mark - é uma forma de se proteger, para ninguem colocar um drop database e acabar com o banco
-            $statement = $con->prepare("UPDATE posts SET name=:name, type=:type, image=:image, description=:description WHERE id=:id");
-            $statement = $con->prepare("UPDATE materiascurso SET codigo=:code, materia=:class, apelidoMateria=:classNick, classe=:classroom, apelidoClasse=:classroomNick, ano=:year, qtdAulas=:numberClass, periodo=:period, id=NULL, nucleoCumum=:commun)");
+            $statement = $con->prepare("UPDATE materiascurso SET classe=:class, apelidoClasse=:classNick, ano=:year, periodo=:period WHERE ".$param['where']);
 
             //substitui o :_mark por um valor, e expecifica o tipo do valor (explicitado por segurança);
-            $statement->bindValue(":code", $param['code'], PDO::PARAM_STR);
             $statement->bindValue(":class", $param['name'], PDO::PARAM_STR);
-            $statement->bindValue(":classNick", $param['nick'], PDO::PARAM_STR);
-            $statement->bindValue(":classroom", $param['classroom'], PDO::PARAM_STR);
-            $statement->bindValue(":classroomNick", $param['clroomNick'], PDO::PARAM_STR);
+            $statement->bindValue(":classNick", $param['nick'], PDO::PARAM_STR);            
             $statement->bindValue(":year", $param['year'], PDO::PARAM_STR);
-            $statement->bindValue(":numberClass", $param['numberClass'], PDO::PARAM_STR);
             $statement->bindValue(":period", $param['period'], PDO::PARAM_STR);
-            $statement->bindValue(":commun", $param['commun'], PDO::PARAM_STR);
         } catch (Exception $e) {
             echo "ERROR " . $e;
             exit();
@@ -301,7 +294,8 @@ class ActionsClassroom
             //em caso de erro 
             echo `window.allert('Erro ao conectar com o banco de dados! <br> {$e->getMessage()}')`;
         }
-        return [];
+        print_r('ok');
+        exit;
     }
 
     /**
@@ -330,7 +324,7 @@ class ActionsClassroom
 
         //prepara uma string para ser executada posteriormente com o prepare;
         //:_mark - é uma forma de se proteger, para ninguem colocar um drop database e acabar com o banco
-        $statement = $con->prepare("DELETE FROM posts WHERE codigo = :id");
+        $statement = $con->prepare("DELETE FROM materiascurso WHERE id= :id");
 
         //substitui o :_mark por um valor, e expecifica o tipo do valor (explicitado por segurança);
         $statement->bindValue(":id", $id, PDO::PARAM_INT);
@@ -338,6 +332,8 @@ class ActionsClassroom
         try {
             //tenta executar a string que estava sendo preparada, ou seja, envia para o DB os dados.
             $statement->execute();
+            print_r('true');
+            exit;
         } catch (Exception $e) {
             //em caso de erro 
             echo `window.allert('Erro ao conectar com o banco de dados! <br> {$e->getMessage()}')`;

@@ -29,9 +29,9 @@ SET time_zone = "+00:00";
 CREATE TABLE `materiascurso` (
   `id` int(11) NOT NULL,
   `codigo` int(11) NOT NULL,
-  `materia` varchar(50) NOT NULL,
+  `materia` varchar(200) NOT NULL,
   `apelidoMateria` varchar(10) NOT NULL,
-  `classe` int(200) NOT NULL,
+  `classe` varchar(200) NOT NULL,
   `apelidoClasse` varchar(20) NOT NULL,
   `ano` int(1) NOT NULL,
   `qtdAulas` int(2) NOT NULL,
@@ -45,17 +45,10 @@ CREATE TABLE `materiascurso` (
 --
 
 --
--- Índices para tabela `class`
---
-ALTER TABLE `class`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Índices para tabela `materiascurso`
 --
 ALTER TABLE `materiascurso`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_class` (`classe`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT de tabelas despejadas

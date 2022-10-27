@@ -93,7 +93,23 @@ class Classroom
      * @return string
      */
     static function deepQuerry($data){
-        //aqui deverá ser tratada a pesquisa por meio de termos na DB
-        print_r($data . " fazendo uma pesquisa profunda com estes dados");
+        
+        $db = new Organization;
+        
+        $querry = $db->db_methods('GET_FILTER', 'classroom', $data);
+        print_r(json_encode($querry));
+        
+    }
+
+    static function deleteClass($id){
+
+        $db = new Organization;
+        $db->db_methods('DELETE', 'classroom', $id);
+        /* print_r('true'); */
+    }
+
+    static function updateClass($data){
+        $db = new Organization;
+        $db->db_methods('PUT', 'classroom', $data);
     }
 }
