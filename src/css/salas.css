@@ -1,11 +1,82 @@
-@import "../bootstrap-5.2.0/css/bootstrap.css";
-span {
+span 
+{
     border-radius: 16px;
     width: fit-content;
     background-color: rgba(01, 00, 00, 00);
 }
 
-.scroolArea {
+.scroolArea 
+{
     overflow-y:scroll;
     width: 20vh;
+}
+
+.btn-procurar
+{
+    justify-content: space-between;
+    width: 100%;
+    display: flex;
+}
+
+.btn-buscar, .btn-cadastrar
+{
+    background-color: rgba(136, 185, 249, 0.79);
+    border: none;
+    border-radius: 1.5vh;
+    width: 30vh;
+    height: 4.5vh;
+    color: black;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn-buscar:hover
+{
+    font-weight: bold;
+}
+
+.btn-cadastrar:hover{
+    font-weight: bold;
+
+}
+
+.box 
+{
+    width: 50%;
+    float: left;
+    height: 40vh;
+}
+
+@media only screen and (max-height: 700px) {
+    .box {
+      height: 120vh;
+    }
+  }
+
+  
+@media only screen and (max-height: 920px) {
+    .box {
+      height: 80vh;
+    }
+  }
+
+.linha-vertical 
+{
+    border-left: 2px solid;
+    box-sizing: border-box;
+    
+}
+
+p
+{
+    text-align: justify;
+    width: 90%;
+    font-size: large;
+}
+
+
+.p-buscar{
+    text-align: justify;
+    padding-left: 1vh;
 }

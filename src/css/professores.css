@@ -1,0 +1,13 @@
+.btn-buscar, .btn-cadastrar
+{
+    background-color: rgba(136, 185, 249, 0.79);
+    border: none;
+    border-radius: 1vh;
+    width: 30vh;
+    height: 4vh;
+    color: black;
+}
+
+.btn-cadastrar:hover{
+    font-weight: bold;
+}

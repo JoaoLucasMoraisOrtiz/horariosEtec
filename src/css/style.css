@@ -1,0 +1,42 @@
+@import "../bootstrap-5.2.0/css/bootstrap.css";
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif;
+}
+#navbarSupportedContent {
+  display: inline;
+}
+
+header
+{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 1vh 5vh;
+    align-items: center;
+    position: fixed;
+    z-index: 999;
+}
+
+li
+{
+  list-style: none;
+  display: inline-block;
+  margin: 2vh;
+  font-size: large;
+}
+
+li:hover
+{
+    font-weight: bold;
+}
+
+body
+{
+    background-color: rgb(243, 245, 244);
+}
+
+.title{
+    text-align: center;
+    padding-top: 8vh;
+  }

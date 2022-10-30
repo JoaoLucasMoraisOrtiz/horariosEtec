@@ -1,9 +1,44 @@
-@import "../bootstrap-5.2.0/css/bootstrap.css";
+/* @import "../bootstrap-5.2.0/css/bootstrap.css";
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
     Arial, sans-serif;
 }
 #navbarSupportedContent {
   display: inline;
+} */
+
+.title{
+  text-align: center;
+  padding-top: 8vh;
 }
 
+.container{
+  background-color: rgb(243, 245, 244);;
+}
+
+p
+{
+  text-align: justify;
+	font-size: 3vh;
+  width: 40%;
+  max-width: 100%;
+  margin: auto auto;
+  padding-top: 6vh;
+}
+
+.linha
+{
+    display: flex;
+
+    position: relative;
+}
+
+.col2
+{
+  width: 45%;
+}
+
+.img2
+{
+  width: 45%;
+}

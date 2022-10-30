@@ -8,6 +8,7 @@
 
     <!-- css da página + bootstrap -->
     <link rel="stylesheet" href="../css/salas.css">
+    <link rel="stylesheet" href="../css/style.css" />
 
     <!-- bibliotecas jquery -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -28,16 +29,48 @@
 </head>
 
 <body>
+    <header>
+    <h1>Kairos</h1>
+            <ul id="rodape">
+            <li><a class="nav-link" href="./index.html">Home</a></li>
+            <li><a class="nav-link" href="./professores.html">Professores</a></li>
+            <li><a class="nav-link" href="./salas.html">Salas</a></li>
+        </ul>
+    </header>
     <div class="container">
-        <h1 class="text-center">Você está em Salas</h1>
-        <a href="./index.html" class="btn btn-danger">voltar</a>
+        <h1 class="title">Você está em Salas</h1>
+        <hr>
+        <!-- <a href="./index.html" class="btn btn-danger">voltar</a> -->
 
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newClassModal">
+        <div class="box">
+            <h2 class="text-center">Cadastro de Sala</h2>
+            <p>
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. 
+                Placeat tempore iusto, impedit dolor veritatis enim corporis a nobis iste nam accusantium distinctio, 
+                facilis cum. Praesentium nobis pariatur ratione. Explicabo, omnis.
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. <br><br>
+                Placeat tempore iusto, impedit dolor veritatis enim corporis a nobis iste nam accusantium distinctio, 
+                facilis cum. Praesentium nobis pariatur ratione. Explicabo, omnis.
+            </p>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn-cadastrar" data-toggle="modal" data-target="#newClassModal">
             Cadastrar Sala
-        </button>
+            </button>
 
-        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#querryField"> procurar </button>
+        </div>
+        <div class="box linha-vertical">
+            <h2 class="text-center">Buscar por uma Sala</h2>
+            <p class="p-buscar">
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. 
+                Placeat tempore iusto, impedit dolor veritatis enim corporis a nobis iste nam accusantium distinctio, 
+                facilis cum. Praesentium nobis pariatur ratione. Explicabo, omnis. <br><br>
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. 
+                Placeat tempore iusto, impedit dolor veritatis enim corporis a nobis iste nam accusantium distinctio, 
+                facilis cum. Praesentium nobis pariatur ratione. Explicabo, omnis. 
+            </p>
+            <button type="button" class="btn-buscar" data-toggle="modal" data-target="#querryField"> Buscar Sala </button>
+
+        </div>
 
         <!-- Modal create-->
         <div class="modal fade" id="newClassModal" tabindex="-1" role="dialog" aria-labelledby="newClassModalLabel"
@@ -45,7 +78,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="newClassModalLabel">Modal title</h5>
+                        <h5 class="modal-title" id="newClassModalLabel">Cadastro de Sala</h5>
                     </div>
                     <div class="modal-body" id="newClassModalBody">
                         <p>Nome da classe <input type="text" name="nCName" id="nCName" class="form-control"></p>
@@ -60,15 +93,15 @@
                             <div id="subjects">
                                 <div id="codeClass">
                                     <p>código da matéria <input type="number" name="sub1code" id="sub1code"
-                                            class="form-controll" placeholder="ex: 1"> <button class="btn btn-danger"
-                                            onclick="verifyId('sub1code')">verificar</button></p>
+                                            class="form-controll" placeholder="ex: 1"> <button class="btn btn-info"
+                                            onclick="verifyId('sub1code')">Verificar</button></p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                        <button type="button" class="btn btn-primary" onclick="sendRoom()">Cadastrar Sala</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                        <button type="button" class="btn btn-success" onclick="sendRoom()">Cadastrar Sala</button>
                     </div>
                 </div>
             </div>
@@ -94,7 +127,7 @@
 
                                 <!-- Select da busca Geral -->
                                 <select name="generalQuerry" class="form-select collapse" id="generalQuerry">
-                                    <option value='0' selected></option>
+                                    <option value='0' selected>-- Selecione uma Opção --</option>
                                     <option value="classroom">Salas</option>
                                     <option value="commun">Matérias de Nucleo Comum</option>
                                     <option value="course">Matérias de Cursos Tecnicos</option>
@@ -123,8 +156,10 @@
                                     </select>
                                 </div>
                                 <hr>
-                                <div class="d-flex flex-row-reverse">
-                                    <button class="btn btn-success" onclick="openQuerry()"> Pesquisar </button>
+                                <!-- <div class="d-flex flex-row-reverse"> -->
+                                <div class="btn-procurar">
+                                    <a href="./salas.html" class="btn btn-danger">Cancelar</a>
+                                    <button class="btn btn-success" onclick="openQuerry()">Buscar</button>
                                 </div>
                             </div>
                             <div class="col3">

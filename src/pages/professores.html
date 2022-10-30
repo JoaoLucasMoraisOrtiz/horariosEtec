@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/professores.css">
+    <link rel="stylesheet" href="../css/style.css" />
     <script src="../js/professores.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
@@ -12,9 +13,19 @@
     <title>Professores</title>
 </head>
 <body>
-    <h1>Você está em professores</h1>
-    <a href="./index.html" class="btn btn-warning">voltar</a>
-    <button class="btn btn-warning" onclick="doit()">criar entrada teste</button>
-
+    <header>
+        <h1>Kairos</h1>
+        <ul id="rodape">
+            <li><a class="nav-link" href="./index.html">Home</a></li>
+            <li><a class="nav-link" href="./professores.html">Professores</a></li>
+            <li><a class="nav-link" href="./salas.html">Salas</a></li>
+        </ul>
+    </header>
+    <div class="container">
+        <h1 class="title">Você está em professores</h1>
+        <hr>
+        <!-- <a href="./index.html" class="btn btn-warning">voltar</a> -->
+        <button class="btn-cadastrar" onclick="doit()">Cadastrar Professor</button>
+    </div>
 </body>
 </html>
