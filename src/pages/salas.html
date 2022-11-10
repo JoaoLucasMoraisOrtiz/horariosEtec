@@ -9,6 +9,7 @@
     <!-- css da página + bootstrap -->
     <link rel="stylesheet" href="../css/salas.css">
     <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css" />
 
     <!-- bibliotecas jquery -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -24,6 +25,7 @@
 
     <!-- script da página -->
     <script src="../js/salas.js"></script>
+    <script src="../js/darkmode.js" defer></script>
 
     <title>Salas</title>
 </head>
@@ -35,6 +37,12 @@
             <li><a class="nav-link" href="./index.html">Home</a></li>
             <li><a class="nav-link" href="./professores.html">Professores</a></li>
             <li><a class="nav-link" href="./salas.html">Salas</a></li>
+            <li><input type="checkbox" name="darkmode" id="change-theme">
+                <label for="change-theme">
+                  <i class="bi bi-sun"></i>
+                  <i class="bi bi-moon"></i>
+                </label>
+            </li>
         </ul>
     </header>
     <div class="container">
@@ -78,9 +86,9 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="newClassModalLabel">Cadastro de Sala</h5>
+                        <h5 class="modal-title window" id="newClassModalLabel">Cadastro de Sala</h5>
                     </div>
-                    <div class="modal-body" id="newClassModalBody">
+                    <div class="modal-body window" id="newClassModalBody">
                         <p>Nome da classe <input type="text" name="nCName" id="nCName" class="form-control"></p>
                         <p>Apelido da classe <input type="text" name="nCNick" id="nCNick" class="form-control"></p>
                         <p>Ano Letivo da Turma <input type="number" name="year" id="year" class="form-control"
@@ -119,7 +127,7 @@
                             <div class="col3">
                                 <!-- botão e texto da busca geral -->
                                 <div class="row">
-                                    <h2 class='text-center'>Busca Geral</h2>
+                                    <h2 class='titles'>Busca Geral</h2>
                                     <button class="btn btn-danger" data-toggle="collapse"
                                         data-target="#generalQuerry">+</button>
                                     <br>
@@ -136,7 +144,7 @@
 
                                 <!-- Botão e texto da busca específica -->
                                 <div class="row">
-                                    <h2 class='text-center'>Busca Individual</h2>
+                                    <h2 class='titles'>Busca Individual</h2>
                                     <button class="btn btn-secondary" data-toggle="collapse"
                                         data-target='#restrictQuerry'>+</button>
                                 </div>

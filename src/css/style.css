@@ -7,22 +7,29 @@ body {
   display: inline;
 }
 
+input[name="darkmode"]{
+  display: none;
+}
+
 header
 {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    padding: 1vh 5vh;
+    padding-left: 5vh;
+    padding-right: 5vh;
     align-items: center;
     position: fixed;
     z-index: 999;
+    box-shadow: .1vh .1vh 1.5vw .1vw;
+  
 }
 
 li
 {
   list-style: none;
   display: inline-block;
-  margin: 2vh;
+  margin: 1.2vh;
   font-size: large;
 }
 
@@ -36,7 +43,51 @@ body
     background-color: rgb(243, 245, 244);
 }
 
-.title{
+.title
+{
     text-align: center;
     padding-top: 8vh;
   }
+
+  /* Dark Mode */
+
+  .dark,
+  .dark header
+  {
+    background-color: #263238;
+    color: #fff;
+  }
+
+  .bi {
+    font-size: 1.3rem;
+    cursor: pointer;
+  }
+  
+  .bi-moon {
+    display: none;
+  }
+
+  .dark body,
+  .dark html
+  {
+    background-color: #263238;
+    color: #fff;
+  }
+
+  .dark .bi-sun {
+    display: none;
+  }
+  
+  .dark .bi-moon {
+    display: block;
+  }
+
+  
+.dark .titles{
+  color: black;
+  text-align: center;
+}
+
+.dark .window{
+  color: black;
+}

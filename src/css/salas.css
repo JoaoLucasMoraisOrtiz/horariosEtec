@@ -45,21 +45,8 @@ span
 {
     width: 50%;
     float: left;
-    height: 40vh;
+    height: 40%;
 }
-
-@media only screen and (max-height: 700px) {
-    .box {
-      height: 120vh;
-    }
-  }
-
-  
-@media only screen and (max-height: 920px) {
-    .box {
-      height: 80vh;
-    }
-  }
 
 .linha-vertical 
 {
@@ -76,7 +63,13 @@ p
 }
 
 
-.p-buscar{
+.p-buscar
+{
     text-align: justify;
     padding-left: 1vh;
+}
+
+.titles{
+    text-align: center;
+    color: black;
 }

@@ -7,13 +7,10 @@ body {
   display: inline;
 } */
 
+
+
 .title{
   text-align: center;
-  padding-top: 8vh;
-}
-
-.container{
-  background-color: rgb(243, 245, 244);;
 }
 
 p
@@ -41,4 +38,6 @@ p
 .img2
 {
   width: 45%;
+  border-left: 2px solid;
+  box-sizing: border-box;
 }
