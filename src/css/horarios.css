@@ -1,3 +1,55 @@
 .dark *{
     color: white;
 }
+
+.linha
+{
+    display: flex;
+    position: relative;
+} 
+
+.table{
+    padding-top: 2vh;
+    width: 80%;
+    padding-left: 2vh;
+}
+
+.btn-cadastrar
+{
+    float: right;
+}
+
+.btns
+{
+    width: 20%;
+    padding-top: 10%;
+    padding-right: 2vh;
+}
+
+.btn-select
+{
+    background-color: rgba(136, 185, 249, 0.79);
+    border: none;
+    border-radius: 1.5vh;
+    width: 95%;
+    height: 12%;
+    color: black;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.btn-select:hover
+{
+    font-weight: bold;
+}
+
+.btn-cadastrar:hover
+{
+    font-weight: bold;
+}
+
+.dark .color{
+    color: black;
+}
