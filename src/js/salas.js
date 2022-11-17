@@ -195,7 +195,6 @@ function sendRoom() {
         url: 'http://localhost:8000/salas',
         data: { "newClass": obj },
         success: function (response) {
-
             r = response;
             if (r == 1) {
                 $('#newClassModal').modal('hide');
@@ -257,12 +256,15 @@ function openQuerry() {
 
                 data = JSON.parse(response);
                 if (simple == 'classroom') {
+                    order('', simple);
                     order(data, simple);
                 };
                 if (simple == 'commun') {
+                    order('', simple);
                     order(data, simple);
                 }
                 if (simple == 'course') {
+                    order('', simple);
                     order(data, simple);
                 }
 
@@ -354,6 +356,7 @@ function order(obj, type = 'classroom') {
             if (Object.hasOwnProperty.call(c, key)) {
                 const element = c[key];
                 n = parseFloat(key);
+                console.log(element);
 
                 //caso o backup não seja 0, ou seja, não é a primeira entrada:
                 if (!(backup == 0)) {
@@ -363,7 +366,7 @@ function order(obj, type = 'classroom') {
                         //verifica se o end já possuí algum elemento, ou se é a primeira entrada
                         if (end.length == 0) {
                             //se é a primeira entrada, adciona o titulo + matérias
-                            end.push(['</select><select name=" ' + [element[1]['classe'] + '">'+ '<option value="" selected>' + element[1]['classe'] + element[1]['ano'] + '</option>'+ '<option value="' + element[1]['materia'] + '">' + element[1]['materia'] + '</option>'+'<option value="' + backup['materia'] + '">' + backup['materia'] + '</option>']]);
+                            end.push(['</select><select name=" ' + [element[1]['classe'] + '"  class="form-select">'+ '<option value="" selected>' + element[1]['ano']+ 'º ' + element[1]['materia'] + '</option>'+ '<option value="' + element[1]['materia'] + '">' + element[1]['materia'] + '</option>'+'<option value="' + backup['materia'] + '">' + backup['materia'] + '</option>']]);
                         } else {
                             
                             //se não, adciona somente a matéria
@@ -371,18 +374,22 @@ function order(obj, type = 'classroom') {
                         }
                     } else {
                         //se a classe e o ano não são iguais, adciona um titulo e a matéria
-                        end.push(['</select><select name=" ' + [element[1]['classe'] + '">'+ '<option value="" selected>' + element[1]['classe'] +element[1]['ano']+ '</option>'+ '<option value="' + element[1]['materia'] + '">' + element[1]['materia'] + '</option>']])
+                        end.push(['</select><select name=" ' + [element[1]['classe'] + '"  class="form-select">'+ '<option value="" selected>' + element[1]['ano']+ 'º ' + element[1]['materia'] + '</option>'+ '<option value="' + element[1]['materia'] + '">' + element[1]['materia'] + '</option>']])
                     }
                 } else {
                     //caso o backup seja zero, quer dizer que é a primeira entrada do for, logo adciona titulo e matéria
-                    end.push(['<select name=" ' + [element[1]['classe'] + '">'+ '<option value="" selected>' + element[1]['classe'] + '</option>'+ '<option value="' + element[1]['materia'] + '">' + element[1]['materia'] + '</option>']])
+                    end.push(['<select name=" ' + [element[1]['classe'] + '"  class="form-select">'+ '<option value="" selected>'  + element[1]['ano']+ 'º ' + element[1]['classe'] +  '</option>'+ '<option value="' + element[1]['materia'] + '">' + element[1]['materia'] + '</option>']])
 
                 }
                 //backup recebe o elemento
                 backup = element[1];
             }
-
         }
+
+        //limpa a tela
+        field = document.getElementById('querryResults')
+        field.innerHTML = '';
+        
         //escreve end na tela;
         for (const key in end) {
             if (Object.hasOwnProperty.call(end, key)) {

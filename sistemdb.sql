@@ -31,7 +31,7 @@ CREATE TABLE `materiascurso` (
   `codigo` int(11) NOT NULL,
   `materia` varchar(50) NOT NULL,
   `apelidoMateria` varchar(10) NOT NULL,
-  `classe` int(200) NOT NULL,
+  `classe` varchar(200) NOT NULL,
   `apelidoClasse` varchar(20) NOT NULL,
   `ano` int(1) NOT NULL,
   `qtdAulas` int(2) NOT NULL,
@@ -64,8 +64,7 @@ ALTER TABLE `materiascurso`
 --
 -- AUTO_INCREMENT de tabela `materiascurso`
 --
-ALTER TABLE `materiascurso`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `materiascurso` CHANGE `id` `id` INT(11) NOT NULL AUTO_INCREMENT, add PRIMARY KEY (`id`);
 
 --
 -- Restrições para despejos de tabelas
