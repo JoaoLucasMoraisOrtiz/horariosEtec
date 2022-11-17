@@ -53,12 +53,14 @@
         <div class="box">
             <h2 class="text-center">Cadastro de Sala</h2>
             <p>
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. 
-                Placeat tempore iusto, impedit dolor veritatis enim corporis a nobis iste nam accusantium distinctio, 
-                facilis cum. Praesentium nobis pariatur ratione. Explicabo, omnis.
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. <br><br>
-                Placeat tempore iusto, impedit dolor veritatis enim corporis a nobis iste nam accusantium distinctio, 
-                facilis cum. Praesentium nobis pariatur ratione. Explicabo, omnis.
+                Todas as salas devem ser cadastradas, para isso basta clicar no botão
+                "Cadastrar Sala" e preencher todos os dados. <br><br>
+                Exemplo: <br>
+                Nome da Classe: Informática Para Internet Integrado ao Ensino Médio <br>
+                Apelido da Classe: EMIA <br>
+                Ano Letivo da Turma: 3 <br>
+                Período das Aulas: integral <br>
+                código da matéria: (coloque todas as matérias da classe) <br>
             </p>
             <!-- Button trigger modal -->
             <button type="button" class="btn-cadastrar" data-toggle="modal" data-target="#newClassModal">
@@ -67,16 +69,17 @@
 
         </div>
         <div class="box linha-vertical">
-            <h2 class="text-center">Buscar por uma Sala</h2>
+            <h2 class="text-center">Buscar por uma Sala ou Matéria</h2>
             <p class="p-buscar">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. 
-                Placeat tempore iusto, impedit dolor veritatis enim corporis a nobis iste nam accusantium distinctio, 
-                facilis cum. Praesentium nobis pariatur ratione. Explicabo, omnis. <br><br>
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. 
-                Placeat tempore iusto, impedit dolor veritatis enim corporis a nobis iste nam accusantium distinctio, 
-                facilis cum. Praesentium nobis pariatur ratione. Explicabo, omnis. 
+                Para buscar por salas ou matérias já cadastradas basta clicar no botão
+                "Buscar" e procurar de acordo com a sua necessidade.
+                <br><br>
+                Você pode buscar por salas ou matérias de uma maneira geral dizendo apenas
+                se você quer buscar por salas, matérias do curso técnico ou matérias do núcleo comum. <br>
+                É possivel também procurar de uma maneira mais específica, determinando qual tipo você quer buscar
+                além do nome da matéria ou sala.
             </p>
-            <button type="button" class="btn-buscar" data-toggle="modal" data-target="#querryField"> Buscar Sala </button>
+            <button type="button" class="btn-buscar" data-toggle="modal" data-target="#querryField"> Buscar </button>
 
         </div>
 
@@ -89,12 +92,12 @@
                         <h5 class="modal-title window" id="newClassModalLabel">Cadastro de Sala</h5>
                     </div>
                     <div class="modal-body window" id="newClassModalBody">
-                        <p>Nome da classe <input type="text" name="nCName" id="nCName" class="form-control"></p>
-                        <p>Apelido da classe <input type="text" name="nCNick" id="nCNick" class="form-control"></p>
+                        <p>Nome da Classe <input type="text" name="nCName" id="nCName" class="form-control"></p>
+                        <p>Apelido da Classe <input type="text" name="nCNick" id="nCNick" class="form-control"></p>
                         <p>Ano Letivo da Turma <input type="number" name="year" id="year" class="form-control"
                                 placeholder="ano letivo: 1, 2 ou 3" min='1' max='3'
                                 oninput="validity.valid ? this.save = value : value = this.save;"></p>
-                        <p>Período das aulas <input type="text" name="period" id="period" class="form-control"
+                        <p>Período das Aulas <input type="text" name="period" id="period" class="form-control"
                                 placeholder="integral, manhã, tarde ..."></p>
                         <hr>
                         <div class="scrollArea">
