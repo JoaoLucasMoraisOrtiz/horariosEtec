@@ -1,5 +1,7 @@
 let countSubjects = 1;
 let obj = {};
+let room = true;
+let roomid = 0;
 
 /**
  * Método responsável por verificar se a matéria do id registrado existe no banco de dados
@@ -8,16 +10,26 @@ let obj = {};
  */
 function verifyId(inputPlace) {
 
-    id = document.getElementById(inputPlace).value;
+    roomid = document.getElementById(inputPlace).value;
 
-    //requisição para o servidor verificando a existencia deste ID
-    $.ajax({
+    var classroom = document.getElementById('nCName');
+    var clroomNick = document.getElementById('nCNick');
+    var year = document.getElementById('year');
+    var period = document.getElementById('period');
+
+    console.log(classroom.value, clroomNick.value, year.value, period.value)
+
+    if(classroom.value && clroomNick.value && year.value && period.value){
+        //requisição para o servidor verificando a existencia deste ID
+        $.ajax({
         type: "POST",
-        url: 'http://localhost:8000/salas',
-        data: { "get": id },
+        url: 'http://localhost:8000/materia',
+        data: { "get": 'id='+roomid },
         success: function (response) {
 
-            confirm = response;
+            confirm = JSON.parse(response);
+            console.log(confirm);
+
             /* window.alert(confirm);
             if (confirm) {
                 window.alert('positiva');
@@ -25,9 +37,8 @@ function verifyId(inputPlace) {
                 window.alert('negativa');
             } */
 
-            //caso a resposta seja negativa
-            if (!confirm) {
-
+            if(confirm == null){
+                room = false;
                 //div que ira conter os campos para acrescentar as informaçoes da materia
                 father = document.getElementById('subjects');
                 count(1);
@@ -94,17 +105,92 @@ function verifyId(inputPlace) {
                 div.appendChild(btn);
                 father.appendChild(div);
 
-            } else {
-                //caso a matéria ja tiver sido cadastrada
-                window.alert('há esta matéria ja cadastrada!');
+            }else{
+                console.
+                room = false;
+                //div que ira conter os campos para acrescentar as informaçoes da materia
+                father = document.getElementById('subjects');
+                count(1);
+                var div = document.createElement('div');
+                div.setAttribute('id', 'sub' + countSubjects);
+
+                // input do nome da materia
+                var name = document.createElement('input');
+                name.setAttribute('id', 'sub' + countSubjects + 'Name');
+                name.setAttribute('type', 'text');
+                name.setAttribute('class', 'form-control');
+                name.setAttribute('value', '');
+                name.setAttribute('placeholder', 'nome da matéria: PROGRAMAÇÃO WEB I');
+                name.value = confirm['nome']
+
+                //input do apelido da materia
+                var nick = document.createElement('input');
+                nick.setAttribute('id', 'sub' + countSubjects + 'Nick');
+                nick.setAttribute('type', 'text');
+                nick.setAttribute('class', 'form-control');
+                nick.setAttribute('value', '');
+                nick.setAttribute('placeholder', 'apelido da matéria: PWI')
+                nick.value = confirm['apelido']
+
+                //input do numero de aulas desta materia
+                var numberClass = document.createElement('input');
+                numberClass.setAttribute('id', 'sub' + countSubjects + 'NumberClass');
+                numberClass.setAttribute('type', 'number');
+                numberClass.setAttribute('class', 'form-control');
+                numberClass.setAttribute('value', '');
+                numberClass.setAttribute('min', '1');
+                numberClass.setAttribute('placeholder', 'número de aulas: 4');
+                numberClass.setAttribute('oninput', 'validity.valid ? this.save = value : value = this.save;');
+                numberClass.value = confirm['numeroAulas']
+                //checkbox
+                var radio = document.createElement('input');
+                radio.setAttribute('id', 'sub' + countSubjects + 'Commun');
+                radio.setAttribute('type', 'checkbox');
+                radio.setAttribute('class', 'form-check-input');
+                radio.setAttribute('value', 'true');
+                if(confirm['comum'] > 0){
+                    radio.setAttribute('checked', true);
+                }
+
+                //checkbox texto
+                var radioText = document.createElement('label');
+                radioText.setAttribute('for', 'sub' + countSubjects + 'Commun');
+                radioText.innerText = ' Núcleo comum';
+
+                //linha hr
+                var p = document.createElement('hr');
+
+                var br = document.createElement('br');
+
+                //botão que adiciona a mateira dentro do dicionario de materias
+                var btn = document.createElement('button');
+                btn.setAttribute('onclick', 'getClass()');
+                btn.setAttribute('class', 'btn btn-success');
+                btn.textContent = 'salvar';
+
+                //adicionando todo este conteúdo ao DOM
+                div.appendChild(name);
+                div.appendChild(nick);
+                div.appendChild(numberClass);
+                div.appendChild(p);
+                div.appendChild(radio);
+                div.appendChild(radioText);
+                div.appendChild(br);
+                div.appendChild(btn);
+                father.appendChild(div);
+
             }
+            
 
         },
         error: function (response) {
             //error do server
             window.alert('Perdão, tivemos um Erro... Recarregue a página e tente novamente')
         }
-    });
+        });
+    }else{
+        console.log('preencha todos os campos para continuar!')
+    }
 
 }
 
@@ -132,6 +218,25 @@ function getClass() {
         'numberClass': numberClass.value,
         'period': period.value,
         'commun': commun.checked
+    }
+
+    saveRoom = {
+        'id': roomid,
+        'name' : obj[countSubjects]['name'],
+        'nick' : obj[countSubjects]['nick'],
+        'commun': obj[countSubjects]['commun'],
+        'numberClass': obj[countSubjects]['numberClass']
+    }
+
+    if(room == false){
+        $.ajax({
+            type: "POST",
+            url: 'http://localhost:8000/materia',
+            data: { "post":  saveRoom},
+            success: function (response) {
+                window.alert(response);
+            }
+        })
     }
 
     const e = document.getElementById('sub' + countSubjects);
@@ -196,6 +301,8 @@ function sendRoom() {
         data: { "newClass": obj },
         success: function (response) {
             r = response;
+            window.alert(r);
+            return
             if (r == 1) {
                 $('#newClassModal').modal('hide');
                 confirmation('a sala foi criada com sucesso', '', 'fechar')
@@ -207,12 +314,90 @@ function sendRoom() {
     });
 }
 
+/*function confirmDialog(message) {
+    node = document.getElementsByTagName('body');
+    console.log(node)
+    modal = document.createElement('div')
+    modal.setAttribute('class', 'modal fade');
+    modal.setAttribute('id', 'confirmationModal');
+    modal.setAttribute('aria-hidden', 'false');
+
+    modalBody = document.createElement('div');
+    modalBody.setAttribute('class', 'modal-dialog modal-dialog-centered')
+
+    modalContent = document.createElement('div');
+    modalContent.setAttribute('class', 'modal-content');
+
+    modalMessage = document.createElement('div');
+    modalMessage.setAttribute('class', 'modal-body');
+    modalMessage.innerHTML = message;
+
+    modalFooter = document.createElement('div');
+    modalFooter.setAttribute('class', 'modal-footer');
+
+    btnConfirm = document.createElement('button');
+    btnConfirm.setAttribute('onclick', 'return true');
+    btnConfirm.setAttribute('class', 'btn btn-primary')
+
+    btnDecline = document.createElement('button');
+    btnDecline.setAttribute('onclick', 'return false');
+    btnDecline.setAttribute('class', 'btn btn-danger')
+
+    modalFooter.appendChild(btnConfirm);
+    modalFooter.appendChild(btnDecline);
+
+    modalContent.appendChild(modalFooter);
+    modalContent.appendChild(modalMessage);
+    modalBody.appendChild(modalContent);
+    modal.appendChild(modalBody);
+    node[0].appendChild(modal);
+
+    
+    const myModal = new mdb.Modal(modal, {
+        backdrop: false
+    })
+      
+    myModal.show();
+
+  };*/
+
 function remove(id) {
     delete obj[id];
     const e = document.getElementById(id);
-
-    // remove the last list item
-    e.remove();
+    $.confirm({
+        title: 'Confirm!',
+        content: 'Simple confirm!',
+        buttons: {
+            confirm: function () {
+                $.ajax({
+                    type: "POST",
+                    url: 'http://localhost:8000/materia',
+                    data: { "delete": roomid },
+                    success: function (response) {
+                        e.remove()
+                    },
+                    error: function (response) {
+                        window.alert('Perdão, tivemos um Erro... Recarregue a página e tente novamente. Sua sala ainda não foi criada.')
+                    }
+                });
+            },
+            cancel: function () {
+                $.confirm({
+                    title: 'Desta Sala',
+                    content: 'Deseja remover a matéria desta sala?',
+                    buttons: {
+                        confirm: function () {
+                            // remove the last list item
+                            e.remove();
+                        },
+                        cancel: function () {
+                               
+                        }
+                    }
+                });
+            }
+        }
+    });
 }
 function count(value) {
     return countSubjects
@@ -222,6 +407,7 @@ function count(value) {
  * escreve na tela um objeto
  * @param {object} obj 
  */
+
 function dump(obj) {
     var out = '';
 
@@ -290,7 +476,7 @@ function openQuerry() {
  * @param {string} confirm texto para o botão de confirmar
  * @param {string} decline texto para o botão de cancelar
  */
-function confirmation(massage, confirm = '', decline = '') {
+function confirmationModal(massage, confirm = '', decline = '') {
 
     let decision;
 

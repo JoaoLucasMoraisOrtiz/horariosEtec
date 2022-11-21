@@ -5,10 +5,12 @@
 namespace App\Model\Entity;
 
 use ActionsClassroom;
+use ActionsRoom;
 use ActionsTeacher;
 
 require_once __DIR__ . '/../API/controller/ActionsClassroom.php';
 require_once __DIR__ . '/../API/controller/ActionsTeacher.php';
+require_once __DIR__ . '/../API/controller/ActionsRoom.php';
 
 class Organization
 {
@@ -40,6 +42,12 @@ class Organization
 
             $this->api = new ActionsTeacher;
         }
+
+        if (strtolower($table) == 'room') {
+
+            $this->api = new ActionsRoom;
+        }
+
     }
 
     /**
@@ -53,9 +61,7 @@ class Organization
     {
 
         if (strtoupper($method) == "GET") {
-
             $this->init($table);
-
             return $this->api->get($params);
         }
 

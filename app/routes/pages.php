@@ -97,6 +97,27 @@ $obRouter->post('/salas', [
     }
 ]);
 
+$obRouter->post('/materia', [
+    function(){
+        $data = $_POST;
+
+        if (isset($data['get'])) {
+            Tables\Room::getRoom($data['get']);
+            exit;
+        }
+
+        if (isset($data['post'])) {
+            Tables\Room::postRoom($data['post']);
+            exit;
+        }
+
+        if (isset($data['delete'])) {
+            Tables\Room::deleteRoom($data['delete']);
+            exit;
+        }
+    }
+]);
+
 $obRouter->post('/professores', [
     function () {
         print_r('here');

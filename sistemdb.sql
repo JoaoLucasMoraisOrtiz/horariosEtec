@@ -1,75 +1,86 @@
--- phpMyAdmin SQL Dump
--- version 5.1.1
--- https://www.phpmyadmin.net/
+-- MySQL dump 10.13  Distrib 8.0.31, for Linux (x86_64)
 --
--- Host: 127.0.0.1
--- Tempo de geração: 01-Set-2022 às 15:59
--- Versão do servidor: 10.4.22-MariaDB
--- versão do PHP: 8.1.1
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
+-- Host: localhost    Database: sistemdb
+-- ------------------------------------------------------
+-- Server version	8.0.31-1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Banco de dados: `sysdb`
+-- Table structure for table `classroom`
 --
 
--- --------------------------------------------------------
+DROP TABLE IF EXISTS `classroom`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `classroom` (
+  `id` int unsigned NOT NULL,
+  `nome` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `apelido` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `comum` tinyint(1) NOT NULL,
+  `numeroAulas` int NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
 --
--- Estrutura da tabela `materiascurso`
+-- Dumping data for table `classroom`
 --
 
+LOCK TABLES `classroom` WRITE;
+/*!40000 ALTER TABLE `classroom` DISABLE KEYS */;
+INSERT INTO `classroom` VALUES (2,'LINGUA PORTUGUESA E LITERATURA','LPL',1,4),(4,'PROGRAMAÇÃO WEB II','PWII',0,4),(8,'DESING E DESENVOLVIMENTO DE WEBSITES','DDW',0,2);
+/*!40000 ALTER TABLE `classroom` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `materiascurso`
+--
+
+DROP TABLE IF EXISTS `materiascurso`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `materiascurso` (
-  `id` int(11) NOT NULL,
-  `codigo` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `codigo` int NOT NULL,
   `materia` varchar(50) NOT NULL,
   `apelidoMateria` varchar(10) NOT NULL,
-  `classe` varchar(200) NOT NULL,
+  `classe` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `apelidoClasse` varchar(20) NOT NULL,
-  `ano` int(1) NOT NULL,
-  `qtdAulas` int(2) NOT NULL,
+  `ano` int NOT NULL,
+  `qtdAulas` int NOT NULL,
   `periodo` varchar(20) NOT NULL,
-  `commun` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-
---
--- Índices para tabelas despejadas
---
+  `commun` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Índices para tabela `class`
---
-ALTER TABLE `class`
-  ADD PRIMARY KEY (`id`);
-
---
--- Índices para tabela `materiascurso`
---
-ALTER TABLE `materiascurso`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_class` (`classe`);
-
---
--- AUTO_INCREMENT de tabelas despejadas
+-- Dumping data for table `materiascurso`
 --
 
---
--- AUTO_INCREMENT de tabela `materiascurso`
---
-ALTER TABLE `materiascurso` CHANGE `id` `id` INT(11) NOT NULL AUTO_INCREMENT, add PRIMARY KEY (`id`);
+LOCK TABLES `materiascurso` WRITE;
+/*!40000 ALTER TABLE `materiascurso` DISABLE KEYS */;
+INSERT INTO `materiascurso` VALUES (2,2,'LINGUA PORTUGUESA E LITERATURA','LPL','INFORMÁTICA PARA INTERNET INTEGRADO AO ENSINO MEDIO','EMIA',3,4,'INTEGRAL',1);
+/*!40000 ALTER TABLE `materiascurso` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
---
--- Restrições para despejos de tabelas
---
-
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2022-11-21 11:04:13
