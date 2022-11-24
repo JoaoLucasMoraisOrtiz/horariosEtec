@@ -8,8 +8,24 @@
     <link rel="stylesheet" href="../css/style.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css" />
     <script src="../js/professores.js"></script>
+    <!-- css da página + bootstrap -->
+    <link rel="stylesheet" href="../css/salas.css">
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css" />
+
+    <!-- bibliotecas jquery -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
+
+    <!-- bibliotecas do js bootstrap -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
     <script src="../js/darkmode.js" defer></script>
     <title>Professores</title>
 </head>
@@ -32,32 +48,60 @@
     <div class="container">
         <h1 class="title">Você está em professores</h1>
         <hr>  
-            <div class="box">
-                <h2 class="text-center">Cadastro de Professor(a)</h2>
-                <p>
-                    Todos os professores devem ser cadastradas, para isso basta clicar no botão
-                    "Cadastrar Professor" e preencher todos os dados. <br><br>
-                    Exemplo: <br>
-                    Nome do Professor: Jorge Ribeiro dos Santos <br>
-                    Apelido da Classe: Jorge <br>
-                    Matéria que Leciona: Matématica <br>
-                    ...
-                </p>
-                <button class="btn-cadastrar" onclick="doit()">Cadastrar Professor</button>
-    
+        <div class="box">
+            <h2 class="text-center">Cadastro de Professor(a)</h2>
+            <p>
+                Todos os professores devem ser cadastradas, para isso basta clicar no botão
+                "Cadastrar Professor" e preencher todos os dados. <br><br>
+                Exemplo: <br>
+                Nome do Professor: Jorge Ribeiro dos Santos <br>
+                Apelido da Professore: Jorge <br>
+                Matéria que Leciona: Matématica <br>
+                ...
+            </p>
+            <button type="button" class="btn-cadastrar" data-toggle="modal" data-target="#newProfessorModal">Cadastrar Professor</button>
+
+        </div>
+        <div class="box linha-vertical">
+            <h2 class="text-center">Registrar Horários</h2>
+            <p class="p-buscar">
+                Para determinar quais aulas os professores já cadastrados desejam
+                pegar basta clicar no botão "Horários" e você sera redirecionado para
+                uma página em que você deve escolher a sala que você deseja determinar
+                os horários e quais professores vão lecionar para aquela turma, após isso
+                os professores com maior pontuação serão chamados para registrar os horários que
+                querem lecionar para aquela turma, levando em consideração os hórarios já ocupados.
+            </p>
+            <button class="btn-horarios" onclick="window.location.href ='./horarios.html'">Horários</button>
+        </div>
+        <!-- Modal create-->
+        <div class="modal fade" id="newProfessorModal" tabindex="-1" role="dialog" aria-labelledby="newProfessorModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title window" id="newProfessorModalLabel">Cadastro de Professores</h5>
+                    </div>
+                    <div class="modal-body window" id="newProfessorModalBody">
+                        <p>Nome do Professor <input type="text" name="nPName" id="nPName" class="form-control"></p>
+                        <p>Apelido do Professor <input type="text" name="nPNick" id="nPNick" class="form-control"></p>
+                        <p>Login <input type="text" name="login" id="login" class="form-control"></p>
+                        <p>Senha <input type="text" name="pass" id="pass" class="form-control"></p>
+                        <hr>
+                        <p>Matéria que leciona <input type="text" name="sub1code" id="sub1code"
+                            class="form-controll" placeholder="ex: MATEMATICA"> <button class="btn btn-info"
+                            onclick="addClass('sub1code')">Salvar Matéria</button></p>
+                        <div id="rooms"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                        <button type="button" class="btn btn-success" onclick="sendProfessor()">Cadastrar Sala</button>
+                    </div>
+                </div>
             </div>
-            <div class="box linha-vertical">
-                <h2 class="text-center">Registrar Horários</h2>
-                <p class="p-buscar">
-                    Para determinar quais aulas os professores já cadastrados desejam
-                    pegar basta clicar no botão "Horários" e você sera redirecionado para
-                    uma página em que você deve escolher a sala que você deseja determinar
-                    os horários e quais professores vão lecionar para aquela turma, após isso
-                    os professores com maior pontuação serão chamados para registrar os horários que
-                    querem lecionar para aquela turma, levando em consideração os hórarios já ocupados.
-                </p>
-                <button class="btn-horarios" onclick="window.location.href ='./horarios.html'">Horários</button>
-            </div>
+        </div>
+
+        
     </div>
 </body>
 </html>

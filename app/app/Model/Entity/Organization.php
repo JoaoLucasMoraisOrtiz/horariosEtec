@@ -6,10 +6,10 @@ namespace App\Model\Entity;
 
 use ActionsClassroom;
 use ActionsRoom;
-use ActionsTeacher;
+use ActionsProfessor;
 
 require_once __DIR__ . '/../API/controller/ActionsClassroom.php';
-require_once __DIR__ . '/../API/controller/ActionsTeacher.php';
+require_once __DIR__ . '/../API/controller/ActionsProfessor.php';
 require_once __DIR__ . '/../API/controller/ActionsRoom.php';
 
 class Organization
@@ -38,9 +38,9 @@ class Organization
             $this->api = new ActionsClassroom;
         }
 
-        if (strtolower($table) == 'teacher') {
+        if (strtolower($table) == 'professor') {
 
-            $this->api = new ActionsTeacher;
+            $this->api = new ActionsProfessor;
         }
 
         if (strtolower($table) == 'room') {

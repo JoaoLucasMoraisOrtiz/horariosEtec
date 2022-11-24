@@ -3,8 +3,6 @@
 //cria nossas rotas de página
 
 use \App\Controller\Tables;
-use App\Controller\Tables\Tables as TablesTables;
-use App\Http\Response;
 
 /* 
                         -=-=-=-=-=-=- ROTAS DE GET -=-=-=-=-=-=-
@@ -120,7 +118,11 @@ $obRouter->post('/materia', [
 
 $obRouter->post('/professores', [
     function () {
-        print_r('here');
-        exit;
+        $data = $_POST;
+
+        if(isset($data['newProfessor'])) {
+            Tables\Professor::createProfessor($data['newProfessor']);
+            exit;
+        }
     }
 ]);
